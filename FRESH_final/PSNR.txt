@@ -1,0 +1,1 @@
+PSNR of butterfly256 with filter    bior4.4 is 24.26 dB
