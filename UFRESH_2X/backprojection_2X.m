@@ -1,4 +1,4 @@
-function I_bp=backpropogation_2X(I_r,Orig)
+function I_bp=backprojection_2X(I_r,Orig)
 % dwtmode('per');
 % [Lo_d,Hi_d,Lo_r,Hi_r]=wfilters('bior4.4');
 % lf=length(Lo_d);

@@ -1,0 +1,12 @@
+function heirarchy = heirarchicalKmeans(centroids)
+% centroids is the codebook of existing centroids from standard kmeans
+% n is the number of child centroids to associate with each parent centroid
+tic
+nctrds = round(sqrt(size(centroids,1)));
+[~, C] = kmeans(centroids, nctrds);
+
+idx = knnsearch(centroids, C, 'K', 4*nctrds, 'Distance', 'euclidean');
+
+toc
+
+end

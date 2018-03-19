@@ -1,0 +1,15 @@
+graph myGraph {
+    {rank = same; Kernel; SPI; USB}
+    System -- Hardware;
+    System -- Software;
+    Software -- Kernel;
+    Software -- Drivers;
+    Drivers -- SPI;
+    Drivers -- USB;
+    Hardware -- Headstage;
+    Hardware -- USB_Interface;
+    Headstage -- H_Schematics;
+    Headstage -- H_Layout;
+    USB_Interface -- U_Schematics;
+    USB_Interface -- U_Layout;
+}
