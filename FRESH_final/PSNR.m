@@ -13,7 +13,7 @@ p=10*log10(range^2/mse);
 end
 
 function e=MSE(I1,I2)
-s1=size(I1);
-delta=(I1-I2).*(I1-I2);
-e=sum(delta(:))/(s1(1)*s1(2));
+    s1=size(I1);
+    delta=(I1-I2).*(I1-I2);
+    e=sum(delta(:))/(s1(1)*s1(2));
 end

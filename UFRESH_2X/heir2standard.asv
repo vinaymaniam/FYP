@@ -1,3 +1,0 @@
-function idx = heir2standard(ind, heirarchy, centroids)
-    idx = centroids(:, centroids == heirarchy(ind(:,1),:,ind(:,2)));
-end

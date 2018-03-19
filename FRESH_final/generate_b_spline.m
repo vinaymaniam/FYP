@@ -45,11 +45,8 @@ t_phi_2          = 1;
 t_phi            = (t_phi_1:T_s:t_phi_2)';
 sub_phi          = ones(length(t_phi), N+1);
 
-
 sub_phi(1,:) = 1/2;
 sub_phi(end,:) = 1/2;
-% sub_phi(end,1)   = 0;
-% sub_phi(1,2:end) = 0;
 
 phi   = sub_phi(:,1);
 t_0   = t_phi(1);
