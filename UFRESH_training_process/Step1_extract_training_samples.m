@@ -3,7 +3,8 @@ addpath('ksvd');
 addpath('ksvd/ksvdbox');
 addpath('ksvd/ksvdbox/private_ccode');
 addpath('ksvd/ompbox');
-addpath('utils')
+addpath('utils');
+addpath('Step2_Kmeans_clustering');
 
 directory_x = 'TrainingData/FRESH_1stage'; 
 pattern = '*.bmp';

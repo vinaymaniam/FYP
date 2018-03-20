@@ -21,7 +21,7 @@ if length(Xcell) ~= length(Ycell)
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 Psnr=zeros(1,length(Xcell));
-for img_index = 1:1%length(Xcell)
+for img_index = 1:length(Xcell)
     stopwatch1 = tic;
 	disp('--------------------------------------------------------')
 	fprintf('Processing image %d of total %d ... \n', img_index, length(Xcell));
@@ -30,10 +30,16 @@ for img_index = 1:1%length(Xcell)
     Ytest = Ycell{img_index}; % HighResolution image Y    
     
     for stage = 1:2
-        load(sprintf('Center2048_%istage',stage)); 
-        Center=single(Center');
-        load(sprintf('Map2048_%istage',stage));
-
+        % Using custom centroids for each stage barely makes a difference
+        % approximately 0.07dB on average(and this comes at the cost of 
+        % DOUBLED training time to get the second codebook
+        % load(sprintf('Center2048_%istage',stage)); 
+        % Center=single(Center');
+        load(sprintf('Center4096'));
+        Center = single(Center);
+        
+        %load(sprintf('Map2048_%istage',stage));
+        load(sprintf('Map4096'));
         Xrec = zeros([size(Xtest),4]);
         for rot = 1:4   
             Xtest_rot = imrotate(Xtest, 90*(rot-1));
