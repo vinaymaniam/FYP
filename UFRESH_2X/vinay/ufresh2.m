@@ -1,5 +1,5 @@
 %% Update from ufresh - Use of heirarchicalKmeans in fast_ec
-function [ X_rec_im ] = ufresh( X_test,blocksize,stepsize,Center, Map )
+function [ X_rec_im ] = ufresh2( X_test,blocksize,stepsize,heirarchy,index, Map )
 
 
     X_test_vec = []; % vectorized patches from testing image X;
@@ -14,16 +14,17 @@ function [ X_rec_im ] = ufresh( X_test,blocksize,stepsize,Center, Map )
     dc_X = mean(X_test_vec);
 	X_test_vec = X_test_vec - repmat(dc_X, size(X_test_vec, 1), 1);
     %% THis line takes the bulk of the time
-    [heirarchy, index] = heirarchicalKmeans(Center);
+    %[heirarchy, index] = heirarchicalKmeans(Center);
     ind=heirarchicalSearch(X_test_vec,heirarchy);
     idx = heir2standard(ind, index);
     %  ------------------------------------
-    X_rec = zeros(size(X_test_vec,1),size(X_test_vec,2)); % recovered X;
-    for i=1:size(X_test_vec,2)
-            s=X_test_vec(:,i);             
-            X_rec(:,i)=reshape(Map(:,idx(i)),25,25)*s; 
-    end
-    X_rec_mean = X_rec + repmat(dc_X, size(X_rec,1), 1);
+    X_rec_mean = reconstructFromMap(X_test_vec, Map, idx, dc_X);
+%     X_rec = zeros(size(X_test_vec,1),size(X_test_vec,2)); % recovered X;
+%     for i=1:size(X_test_vec,2)
+%             s=X_test_vec(:,i);             
+%             X_rec(:,i)=reshape(Map(:,idx(i)),25,25)*s; 
+%     end
+%     X_rec_mean = X_rec + repmat(dc_X, size(X_rec,1), 1);
     
 	X_rec_im = col2imstep(X_rec_mean, cropwidth, blocksize, stepsize);
     cnt = countcover(cropwidth,blocksize,stepsize);

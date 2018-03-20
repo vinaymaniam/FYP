@@ -35,15 +35,18 @@ for img_index = 1:length(Xcell)
         % DOUBLED training time to get the second codebook
         % load(sprintf('Center2048_%istage',stage)); 
         % Center=single(Center');
-        load(sprintf('Center4096'));
-        Center = single(Center);
+        % load(sprintf('Center4096'));
+        % Center = single(Center);
+        load(sprintf('Heirarchy4096'));
+        heirarchy = single(heirarchy);        
         
         %load(sprintf('Map2048_%istage',stage));
-        load(sprintf('Map4096'));
+        load(sprintf('Map4096cell'));
         Xrec = zeros([size(Xtest),4]);
         for rot = 1:4   
             Xtest_rot = imrotate(Xtest, 90*(rot-1));
-            X = ufresh2(Xtest_rot,blocksize,stepsize,Center, Map);
+            % X = ufresh2(Xtest_rot,blocksize,stepsize,Center, Map);
+            X = ufresh2(Xtest_rot,blocksize,stepsize,heirarchy,index, Map);
             X = imrotate(X, 360-90*(rot-1));
             X = backprojection_2X(X,Ytest);
             Xrec(:,:,rot) = X;            

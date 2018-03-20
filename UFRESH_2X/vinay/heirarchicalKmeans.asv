@@ -3,11 +3,11 @@ function [heirarchy, ind] = heirarchicalKmeans(centroids)
 % n is the number of child centroids to associate with each parent centroid
     centroids = centroids';
     nctrds = round(sqrt(size(centroids,1)));
-%     Use this version offline to get more accurate results
+%     
 %     stream = RandStream('mlfg6331_64');
 %     options = statset('UseParallel',1,'UseSubstreams',1,...
 %     'Streams',stream);    
-%     [~, C] = kmeans(centroids,nctrds,'Options',options,'MaxIter',300,...
+%     [~, C] = kmeans(X',k,'Options',options,'MaxIter',300,...
 %                           'Display','final','Replicates',10);
     
     [~, C] = kmeans(centroids, nctrds);
