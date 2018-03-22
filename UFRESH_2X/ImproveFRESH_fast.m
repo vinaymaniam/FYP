@@ -37,11 +37,11 @@ for img_index = 1:length(Xcell)
         % Center=single(Center');
         % load(sprintf('Center4096'));
         % Center = single(Center);
-        load(sprintf('Heirarchy4096'));
+        load(sprintf('pyHeirarchy4096'));
         heirarchy = single(heirarchy);        
         
         %load(sprintf('Map2048_%istage',stage));
-        load(sprintf('Map4096cell'));
+        load(sprintf('pyMap4096cell'));
         Xrec = zeros([size(Xtest),4]);
         for rot = 1:4   
             Xtest_rot = imrotate(Xtest, 90*(rot-1));

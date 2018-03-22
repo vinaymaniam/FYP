@@ -1,9 +1,10 @@
 clear;
 load DX_all
 load DY_all
-for i = [256, 1024, 2048, 4096]
+for i = 4096%[256, 1024, 2048, 4096]
     t1 = tic;
-    load(sprintf('Center%i',i));
+%     load(sprintf('Center%i',i));
+    load(sprintf('pyCenter%i',i));
     cn=size(Center,2);
     clusterszA=48; % size of each cluster, can be changed.
     Map=[];
@@ -27,7 +28,8 @@ for i = [256, 1024, 2048, 4096]
             tsplit = 0;
         end
     end
-    save(sprintf('Map%i',i), 'Map');
+%     save(sprintf('Map%i',i), 'Map');
+    save(sprintf('pyMap%i',i), 'Map');
     fprintf('Mapping Codebook of Size %i Took %.0f seconds....\n\n',i,toc(t1))
     fprintf('-------------------------------------------------\n\n')
 end

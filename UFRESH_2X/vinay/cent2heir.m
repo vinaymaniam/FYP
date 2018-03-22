@@ -1,4 +1,4 @@
-load Center4096.mat
+load pyCenter4096.mat
 Center = single(Center);
 
 %% Kmeans with replicates to get better results
@@ -23,4 +23,5 @@ for i = 1:size(index,2)
     end
 end
 
-save('Heirarchy4096','heirarchy','index')
+% save('Heirarchy4096','heirarchy','index')
+save('pyHeirarchy4096','heirarchy','index')
