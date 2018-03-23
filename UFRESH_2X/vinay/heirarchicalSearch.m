@@ -1,7 +1,7 @@
 %% 12s down to 8s by changing xx-2xc+cc to cc-2xc
-%% Down to 4s with heirarchical search
-%% Down to 3s with cell array in reconstructFromMap.m
-%% 12 was for 2048 codewords, 3s is for 4096!!
+% Down to 4s with heirarchical search
+% Down to 3s with cell array in reconstructFromMap.m
+% 12 was for 2048 codewords, 3s is for 4096!!
 function [ idx ] = heirarchicalSearch( X,heirarchy )
     heirarchy = single(heirarchy);
     idx = zeros(size(X,2),2);
@@ -13,9 +13,10 @@ function [ idx ] = heirarchicalSearch( X,heirarchy )
     for i = 1:size(heirarchy,1)
         heir = squeeze(heirarchy(i,:,2:end))';
         CC = sum(heir.^2, 2)';
-        XC = X(idx(:,1)==i,:) * heir';
+        indices = find(idx(:,1)==i);
+        XC = X(indices,:) * heir';
         dists = bsxfun(@minus, CC, 2*XC);
         [~,idx2]=min(dists,[],2);
-        idx(idx(:,1)==i, 2) = idx2;
+        idx(indices, 2) = idx2;
     end        
 end

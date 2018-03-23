@@ -23,7 +23,7 @@ end
 Psnr=zeros(1,length(Xcell));
 for img_index = 1:length(Xcell)
     stopwatch1 = tic;
-	disp('--------------------------------------------------------')
+	fprintf('--------------------------------------------------------\n')
 	fprintf('Processing image %d of total %d ... \n', img_index, length(Xcell));
 
     Xtest = Xcell{img_index}; % LowRresolution image X
@@ -33,21 +33,15 @@ for img_index = 1:length(Xcell)
         % Using custom centroids for each stage barely makes a difference
         % approximately 0.07dB on average(and this comes at the cost of 
         % DOUBLED training time to get the second codebook
-        % load(sprintf('Center2048_%istage',stage)); 
-        % Center=single(Center');
-        % load(sprintf('Center4096'));
-        % Center = single(Center);
         %% Now that training is so fast might be worth it to make custom
         % codebooks AND Maps for each stage as before
         load(sprintf('pyHeirarchy4096_1'));
         heirarchy = single(heirarchy);        
         
-        %load(sprintf('Map2048_%istage',stage));
         load(sprintf('pyMap4096cell96_1'));
         Xrec = zeros([size(Xtest),4]);
         for rot = 1:4   
             Xtest_rot = imrotate(Xtest, 90*(rot-1));
-            % X = ufresh2(Xtest_rot,blocksize,stepsize,Center, Map);
             X = ufresh2(Xtest_rot,blocksize,stepsize,heirarchy,index, Map);
             X = imrotate(X, 360-90*(rot-1));
             X = backprojection_2X(X,Ytest);
