@@ -6,11 +6,12 @@ for i = 4096%[256, 1024, 2048, 4096]
 %     load(sprintf('Center%i',i));
     load(sprintf('pyCenter%i',i));
     cn=size(Center,2);
-    clusterszA=48; % size of each cluster, can be changed.
-    Map=[];
+    clusterszA=96;%96;%48; % size of each cluster, can be changed.
+    lambda = 0.01; %Regularisation param, can be changed.
+    Map=cell(cn,1);
     % For each centroid Center(:,t)
-    tsplit = 0;
-    for t=1:cn
+    done = zeros(1,cn);
+    parfor t=1:cn
         t2 = tic;
     %   Euclidean distance between X and the centroid
     %   single just converts to single precision
@@ -20,16 +21,12 @@ for i = 4096%[256, 1024, 2048, 4096]
     %   Calculate projection matrices and store so they can be called upon at runtime  
         PatchesL = X(:, idx(1:clusterszA)); 
         PatchesH = Y(:, idx(1:clusterszA)); 
-        M=PatchesH*PatchesL'*inv(PatchesL*PatchesL'+0.01*eye(size(Center,1))); 
-        Map{t}=M;
-        tsplit = tsplit + toc(t2);
-        if mod(t,128) == 0
-            fprintf('Finished %i out of %i(%.0f seconds)....\n',t,i,tsplit)
-            tsplit = 0;
-        end
+        M=PatchesH*PatchesL'*inv(PatchesL*PatchesL'+lambda*eye(size(Center,1))); 
+        Map{t}=M;   
+        fprintf('Finished %i out of %i....\n',t,cn)
     end
 %     save(sprintf('Map%i',i), 'Map');
-    save(sprintf('pyMap%i',i), 'Map');
+    save(sprintf('pyMap%icell%i',i,clusterszA), 'Map');
     fprintf('Mapping Codebook of Size %i Took %.0f seconds....\n\n',i,toc(t1))
     fprintf('-------------------------------------------------\n\n')
 end

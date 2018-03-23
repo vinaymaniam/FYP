@@ -37,11 +37,13 @@ for img_index = 1:length(Xcell)
         % Center=single(Center');
         % load(sprintf('Center4096'));
         % Center = single(Center);
-        load(sprintf('pyHeirarchy4096'));
+        %% Now that training is so fast might be worth it to make custom
+        % codebooks AND Maps for each stage as before
+        load(sprintf('pyHeirarchy4096_1'));
         heirarchy = single(heirarchy);        
         
         %load(sprintf('Map2048_%istage',stage));
-        load(sprintf('pyMap4096cell'));
+        load(sprintf('pyMap4096cell96_1'));
         Xrec = zeros([size(Xtest),4]);
         for rot = 1:4   
             Xtest_rot = imrotate(Xtest, 90*(rot-1));
