@@ -15,11 +15,11 @@ index = knnsearch(Center, C, 'K', 3*nctrds, 'Distance', 'euclidean');
 
 heirarchy = zeros(nctrds, 25, size(index,2)+1);
 heirarchy(:,:,1) = C;
-ind = zeros(nctrds, size(index,2));
+% ind = zeros(nctrds, size(index,2));
 for i = 1:size(index,2)
     for j = 1:nctrds
         heirarchy(j,:,i+1) = Center(index(j,i),:);
-        ind(j,i) = index(j,i);
+%         ind(j,i) = index(j,i);
     end
 end
 

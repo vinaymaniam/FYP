@@ -1,7 +1,7 @@
 clear;
 load DX_all
 load DY_all
-for i = 4096%[256, 1024, 2048, 4096]
+for i = 8192%[256, 1024, 2048, 4096]
     t1 = tic;
 %     load(sprintf('Center%i',i));
     load(sprintf('pyCenter%i',i));
@@ -10,9 +10,7 @@ for i = 4096%[256, 1024, 2048, 4096]
     lambda = 0.01; %Regularisation param, can be changed.
     Map=cell(cn,1);
     % For each centroid Center(:,t)
-    done = zeros(1,cn);
-    parfor t=1:cn
-        t2 = tic;
+    for t=1:cn
     %   Euclidean distance between X and the centroid
     %   single just converts to single precision
         D = pdist2(single(X'),single(Center(:,t)'));
