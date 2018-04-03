@@ -1,9 +1,8 @@
 clear;
-addpath('ksvd');
-addpath('ksvd/ksvdbox');
-addpath('ksvd/ksvdbox/private_ccode');
-addpath('ksvd/ompbox');
-addpath('utils')
+% addpath('ksvd');
+% addpath('ksvd/ksvdbox');
+% addpath('ksvd/ksvdbox/private_ccode');
+% addpath('ksvd/ompbox');
 addpath('vinay')
 
 directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
@@ -21,13 +20,13 @@ if length(Xcell) ~= length(Ycell)
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 Psnr=zeros(1,length(Xcell));
-for img_index = 1:length(Xcell)
+for imgIdx = 1:length(Xcell)
     stopwatch1 = tic;
 	fprintf('--------------------------------------------------------\n')
-	fprintf('Processing image %d of total %d ... \n', img_index, length(Xcell));
+	fprintf('Processing image %d of total %d ... \n', imgIdx, length(Xcell));
 
-    Xtest = Xcell{img_index}; % LowRresolution image X
-    Ytest = Ycell{img_index}; % HighResolution image Y    
+    Xtest = Xcell{imgIdx}; % LowRresolution image X
+    Ytest = Ycell{imgIdx}; % HighResolution image Y    
     
     for stage = 1:2
         % Using custom centroids for each stage barely makes a difference
@@ -35,10 +34,12 @@ for img_index = 1:length(Xcell)
         % DOUBLED training time to get the second codebook
         %% Now that training is so fast might be worth it to make custom
         % codebooks AND Maps for each stage as before
-        load(sprintf('pyHeirarchy4096_1'));
-        heirarchy = single(heirarchy);        
+        load(sprintf('pyHeirarchy4096'));
+        heirarchy = single(heirarchy);   
+        % python uses 0 indexing
+%         index = index + 1;
         
-        load(sprintf('pyMap4096cell96_1'));
+        load(sprintf('pyMap4096cell96'));
         Xrec = zeros([size(Xtest),4]);
         for rot = 1:4   
             Xtest_rot = imrotate(Xtest, 90*(rot-1));
@@ -53,8 +54,10 @@ for img_index = 1:length(Xcell)
    
         clear Center Map
     end
-    psnr(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)) % PSNR calculation
-    Psnr(img_index)=psnr(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
+%     psnr(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)) % PSNR calculation
+    psnr(Xtest,Ytest) % PSNR calculation
+%     Psnr(imgIdx)=psnr(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
+    Psnr(imgIdx)=psnr(Xtest,Ytest); 
     toc(stopwatch1)
 end
 mean(Psnr)

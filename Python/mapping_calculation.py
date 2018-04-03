@@ -22,8 +22,8 @@ for t in range(0,cn,1):
     c1 = Center[...,t].reshape(-1,1)
     D = scipy.spatial.distance.cdist(X.transpose(), Center[...,t].reshape(1,-1))
     # This sorting part takes a long time!
-    dv = D.sort()
-    idx = D.argsort()
+    dv = np.sort(D, axis=0)
+    idx = np.argsort(D, axis=0)
     patchesL = np.squeeze(X[...,idx[0:clusterszA]], axis=2)
     patchesH = np.squeeze(Y[..., idx[0:clusterszA]], axis=2)
     M = patchesH.dot(patchesL.transpose().dot(
@@ -35,5 +35,5 @@ for t in range(0,cn,1):
 tend = time.time()
 print('Map generation took ',(tend-tstart),' seconds')
 savfilename = 'pyMap'+str(i)+'cell'+str(clusterszA+1)+'.mat'
-data = {'Center': Map}
+data = {'Map': Map}
 scipy.io.savemat(savfilename, data)
