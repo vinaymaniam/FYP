@@ -1,9 +1,27 @@
 import numpy as np
 
 from ufresh_helper_functions import heir_to_standard, heirarchical_search, reconstruct_from_map
+from thirdparty import col_to_im, im_to_col, merge_patch
 
-def ufresh():
-    return 0
+def ufresh(xtest, blocksize, heirarchy, index, mymap):
+    cropwidth = [len(xtest),len(xtest[0])]
+    # can probably replace with list comp
+    # xtestvec = np.array([]).reshape([blocksize[0] * blocksize[1], 0])
+    # for j in range(0,cropwidth[1]-blocksize[1]+1, 1):
+    #     blocksX = im_to_col(xtest[:, j:j+blocksize[0]], blocksize, 1)
+    #     xtestvec = np.concatenate((xtestvec, blocksX), axis=1)
+    xtestvec = im_to_col(xtest, blocksize, 1)
+    dcx = np.mean(xtestvec, axis=0)
+    xtestvec = xtestvec - np.tile(dcx, [xtestvec.shape[0], 1])
+
+    ind = heirarchical_search(xtestvec, heirarchy)
+    idx = heir_to_standard(ind, index)
+
+    xrecmean = reconstruct_from_map(xtestvec, mymap, idx, dcx)
+
+    xrecim = merge_patch(xrecmean, blocksize, cropwidth)
+
+    return xrecim
 
 # a = np.random.rand(3,3)
 # b = np.random.rand(3,3)
@@ -14,6 +32,6 @@ def ufresh():
 # psnr = 10*np.log10(1/mse)
 # print(psnr)
 
-a = np.identity(3)
-print(a)
-print(a*3)
+# a = np.identity(3)
+# print(a)
+# print(a*3)

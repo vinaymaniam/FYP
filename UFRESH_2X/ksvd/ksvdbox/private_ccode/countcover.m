@@ -31,3 +31,7 @@ for k = 1:length(sz)
   cnt = cnt .* max( min(floor((ids-1)/stepsize(k)),floor((sz(k)-blocksize(k))/stepsize(k))) - ...
                     max(ceil((ids-blocksize(k))/stepsize(k)),0) + 1 , 0 );
 end
+
+
+
+

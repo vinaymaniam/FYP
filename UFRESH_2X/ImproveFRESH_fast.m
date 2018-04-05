@@ -20,7 +20,7 @@ if length(Xcell) ~= length(Ycell)
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 Psnr=zeros(1,length(Xcell));
-for imgIdx = 1:length(Xcell)
+for imgIdx = 1:1%length(Xcell)
     stopwatch1 = tic;
 	fprintf('--------------------------------------------------------\n')
 	fprintf('Processing image %d of total %d ... \n', imgIdx, length(Xcell));
