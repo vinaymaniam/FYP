@@ -10,6 +10,7 @@
 name_vec={'butterfly256'};%{'comic360','butterfly256','bird288','woman344','pepper512','lena512','','childface512','zebra584'};
 filter_vec={'bior4.4'};%{'rbio2.8'};
 for image_count=1:length(name_vec)
+    fprintf('Image %i out of %i\n',image_count,length(name_vec))
     clearvars -except image_count name_vec filter_vec;
     close all
     tic

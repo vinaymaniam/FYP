@@ -16,7 +16,7 @@ range=num-1;
 patch_count=0;
 I_rec=zeros(size(I_fri2));count=I_rec;
 for xx=ceil(num*ratio)+p_size+1:size_I(1)+ceil(num*ratio)-p_size
-    fprintf('%i out of %i\n', xx, size_I(1)+ceil(num*ratio)-p_size);
+%     fprintf('%i out of %i\n', xx, size_I(1)+ceil(num*ratio)-p_size);
     for yy=ceil(num*ratio)+p_size+1:size_I(2)+ceil(num*ratio)-p_size
         patch_count=patch_count+1;
         patch_fri2_current=I_fri2(xx+(-p_size:p_size),yy+(-p_size:p_size));

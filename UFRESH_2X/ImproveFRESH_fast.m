@@ -5,7 +5,8 @@ clear;
 % addpath('ksvd/ompbox');
 addpath('vinay')
 
-directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
+% directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
+directory_x = 'Testing_Images/bicubic/Set5'; 
 pattern = '*.bmp';
 directory_y = 'Testing_Images/GT/Set5'; 
 
@@ -45,7 +46,7 @@ for imgIdx = 1:length(Xcell)
             Xrec(:,:,rot) = X;            
         end
         Xtest = mean(Xrec,3);
-        Xtest = backprojection_2X(Xtest, Ytest,'bior3.3');
+        Xtest = backprojection_2X(Xtest, Ytest,'db2');
     end
     fprintf('PSNR after processing = %.1f\n', psnr(Xtest,Ytest))
     Psnr(imgIdx)=psnr(Xtest,Ytest); 
