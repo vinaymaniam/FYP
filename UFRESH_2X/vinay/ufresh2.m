@@ -1,5 +1,5 @@
 %% Update from ufresh - Use of heirarchicalKmeans in fast_ec
-function [ X_rec_im ] = ufresh2( X_test,blocksize,stepsize,heirarchy,index, Map )
+function [ X_rec_im ] = ufresh2( X_test,blocksize,heirarchy,index, Map )
     
     cropwidth = size(X_test);
     % vectorized patches from testing image X;
@@ -15,6 +15,7 @@ function [ X_rec_im ] = ufresh2( X_test,blocksize,stepsize,heirarchy,index, Map 
     
     X_rec_im = mergePatch(X_rec_mean, blocksize, cropwidth);      
 end
+
 function [img] = mergePatch(p, bs, cw)
     y = bs(1); x = bs(2);
     Y = cw(1); X = cw(2);

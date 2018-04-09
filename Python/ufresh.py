@@ -5,11 +5,7 @@ from thirdparty import col_to_im, im_to_col, merge_patch
 
 def ufresh(xtest, blocksize, heirarchy, index, mymap):
     cropwidth = [len(xtest),len(xtest[0])]
-    # can probably replace with list comp
-    # xtestvec = np.array([]).reshape([blocksize[0] * blocksize[1], 0])
-    # for j in range(0,cropwidth[1]-blocksize[1]+1, 1):
-    #     blocksX = im_to_col(xtest[:, j:j+blocksize[0]], blocksize, 1)
-    #     xtestvec = np.concatenate((xtestvec, blocksX), axis=1)
+
     xtestvec = im_to_col(xtest, blocksize, 1)
     dcx = np.mean(xtestvec, axis=0)
     xtestvec = xtestvec - np.tile(dcx, [xtestvec.shape[0], 1])
@@ -19,7 +15,7 @@ def ufresh(xtest, blocksize, heirarchy, index, mymap):
 
     xrecmean = reconstruct_from_map(xtestvec, mymap, idx, dcx)
 
-    xrecim = merge_patch(xrecmean, blocksize, cropwidth)
+    xrecim = merge_patch(xrecmean, blocksize, cropwidth).T
 
     return xrecim
 

@@ -10,4 +10,5 @@ for i = 1:numel(paths)
 %     X = im2single(X); % to reduce memory usage
 	 X = im2double(X); % to reduce memory usage 0-255,0-1
     imgs{i} = X;
+%     fprintf('%.3f     %.3f     %.3f\n',min(min(X)),max(max(X)),mean(mean(X)))
 end

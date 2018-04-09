@@ -13,11 +13,25 @@ def im_to_col(A, blocksize, stepsize=1):
     out_view = np.lib.stride_tricks.as_strided(A, shape=shp, strides=strd)
     return out_view.reshape(blocksize[0] * blocksize[1], -1)[:, ::stepsize]
 
+def im_to_col2(A, BSZ, stepsize=1):
+    # Parameters
+    M,N = A.shape
+    col_extent = N - BSZ[1] + 1
+    row_extent = M - BSZ[0] + 1
+
+    # Get Starting block indices
+    start_idx = np.arange(BSZ[0])[:,None]*N + np.arange(BSZ[1])
+
+    # Get offsetted indices across the height and width of input array
+    offset_idx = np.arange(row_extent)[:,None]*N + np.arange(col_extent)
+
+    # Get all actual indices & index into input array for final output
+    return np.take (A,start_idx.ravel()[:,None] + offset_idx.ravel()[::stepsize])
 
 def col_to_im(B, block_size, image_size):
     m, n = block_size
     mm, nn = image_size
-    return B.reshape([nn - n + 1, mm - m + 1]).T
+    return B.reshape([mm - m + 1, nn - n + 1], order='F')
 
 def merge_patch(p, blocksize, cropwidth):
     y = blocksize[0]

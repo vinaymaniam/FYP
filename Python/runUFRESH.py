@@ -10,7 +10,7 @@ import matplotlib.image as mpimg
 import pywt
 
 from utils import myglob, load_images
-# from backprojection_2X import backprojection_2X
+from backprojection_2X import backprojection_2X
 from ufresh import ufresh
 
 
@@ -25,17 +25,18 @@ def runUFRESH():
     Ycell = load_images(YpathCell)
 
     blocksize = [5, 5]
-    stepsize = [1, 1]
 
-    Psnr = np.ndarray([len(Xcell)])
-
-    for imgIdx in range(0,1):#len(Xcell)):
+    Psnr = np.zeros([len(Xcell)])
+    prepsnr = np.zeros([len(Xcell)])
+    for imgIdx in range(0,len(Xcell)):
         t1 = time.time()
         print('--------------------------------------------------------')
-        print('Processing image ', str(imgIdx), ' of total ', str(len(Xcell)))
+        print('Processing image ', str(imgIdx+1), ' of total ', str(len(Xcell)))
         Xtest = Xcell[imgIdx]
         Ytest = Ycell[imgIdx]
-
+        mse = np.square((Xtest - Ytest).ravel()).mean(axis=0)
+        prepsnr[imgIdx] = 10 * np.log10(1 / mse)
+        print('PSNR before processing = ', prepsnr[imgIdx])
         for stage in [1,2]:
             heir = sp.io.loadmat('pyHeirarchy4096.mat')
             heirarchy = heir['heirarchy'].astype(float32)
@@ -47,31 +48,38 @@ def runUFRESH():
             # for i in range(Map.shape[0]):
             Map = [np.ndarray([C[0].shape[0], C[0].shape[1]])]*C.shape[0]
             for i in range(len(Map)):
-                Map[i] = C[i].astype(float32)
+                Map[i] = C[i].astype(float)
 
             Xrec = np.zeros([len(Xtest), len(Xtest[0]), 4])
             for rot in range(0,4):
                 print(rot)
-                Xtestrot = sp.ndimage.interpolation.rotate(Xtest, 90*rot)
+                Xtestrot = np.rot90(Xtest, rot)
+                # Xtestrot = sp.ndimage.rotate(Xtest, 90*rot)
                 X = ufresh(Xtestrot, blocksize, heirarchy, index, Map)
-                X = sp.ndimage.interpolation.rotate(X, 360 - 90*rot)
-                # X = backprojection_2X(X, Ytest)
+                X = backprojection_2X(X, np.rot90(Ytest, rot))
+                X = np.rot90(X, 4-rot)
+                # X = sp.ndimage.rotate(X, 360-90*rot)
+                Xrec[:,:,rot] = X
 
-            ensembleMean = np.mean(Xrec,axis=2)
-            # Xtest = backprojection_2X(ensembleMean, Ytest)
+            Xtest = np.mean(Xrec,axis=2)
+            Xtest = backprojection_2X(Xtest, Ytest)
 
-        mse = abs(np.square(Xtest-Ytest)).mean(axis=0).mean(axis=0)
+        mse = np.square((Xtest-Ytest).ravel()).mean(axis=0)
         Psnr[imgIdx] = 10*np.log10(1/mse)
-        print(Psnr[imgIdx])
+        print('PSNR after processing  = ',Psnr[imgIdx])
         t2 = time.time()
         print('Elapsed time is ', str(t2-t1))
 
-        plt.figure()
-        plt.imshow(Xtest)
-        plt.figure()
-        plt.imshow(Ytest)
-        plt.show()
+        # plt.figure()
+        # plt.imshow(Xtest, cmap='gray')
+        # plt.title('Xtest')
+        # plt.figure()
+        # plt.imshow(Ytest, cmap='gray')
+        # plt.title('Ytest')
+        # plt.show()
+    print('========================================================')
     print('Average PSNR across all runs = ', str(Psnr.mean(axis=0)))
+    print('Average improvement in PSNR  = ', str((Psnr-prepsnr).mean(axis=0)))
 
 
 
