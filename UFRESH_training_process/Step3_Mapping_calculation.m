@@ -11,8 +11,6 @@ for i = 8192%[256, 1024, 2048, 4096]
     Map=cell(cn,1);
     % For each centroid Center(:,t)
     for t=1:cn
-    %   Euclidean distance between X and the centroid
-    %   single just converts to single precision
         D = pdist2(single(X'),single(Center(:,t)'));
     %   sort in ascending order, and store the original indices in idx (dv = D(idx))  
         [dv, idx] = sort(D);                
