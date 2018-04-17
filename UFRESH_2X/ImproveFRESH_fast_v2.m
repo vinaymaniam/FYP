@@ -1,5 +1,6 @@
+%% Not using FRESH initialised images
 clear;
-dwtmode('sym')
+dwtmode('spd')
 % addpath('ksvd');
 % addpath('ksvd/ksvdbox');
 % addpath('ksvd/ksvdbox/private_ccode');
@@ -42,21 +43,21 @@ for imgIdx = 1:length(Xcell)
     heirarchy = single(heirarchy);
     load(sprintf('pyMap4096cell96'));   
     filt = 'bior4.4';
-    for stage = 1:2
+    for stage = 1:1
         ensembleSize = 4;
         Xrec = zeros([size(Xtest),ensembleSize]);
         for rot = 1:ensembleSize
-            X = rot90(Xtest, rot-1);
+            X = rot90(Xtest, rot-1);            
             X = ufresh2(X,blocksize,heirarchy,index, Map);   
-            % PROBLEM: ROTATING Ilowc NOT SAME AS GETTING Ilowc FROM
-            % ROTATED Ytest
-%             X = backprojection(X,rot90(Ilowc, rot-1), filt);
             X = rot90(X, 4-(rot-1));
             X = backprojection(X, Ilowc, filt);
             Xrec(:,:,rot) = X;
         end
-        Xtest = mean(Xrec,3);
-        Xtest = backprojection(Xtest, Ilowc, filt);        
+%         res = resLearn(Xtest, 2, blocksize, heirarchy, index, Map, filt);
+        Xtest = mean(Xrec,3); 
+%         Xtest = Xtest + res;
+        Xtest = backprojection(Xtest, Ilowc, filt);  
+        
     end
     fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
     postpsnr(imgIdx)=psnr(Xtest,Ytest); 

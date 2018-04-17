@@ -51,20 +51,24 @@ for imgIdx = 1:length(Xcell)
     % index = index + 1;        
     load(sprintf('pyMap4096cell96'));    
     filt = 'db2'; % db2 gives much better results for FRESH input
-    for stage = 1:2
-        ensembleSize = 4;
+    % Cascading makes things WORSE
+    %% NEXT STEP - IMPLEMENT RESIDUAL LEARNING(FROM FRESH) IN V2
+    for stage = 1:1%2
+        ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
         Xrec = zeros([size(Xtest),ensembleSize]);
         for rot = 1:ensembleSize
-            X = rot90(Xtest, (rot-1));
-            X = ufresh2(X,blocksize,heirarchy,index, Map);
-%             X = backprojection_2X(X,rot90(Ytest,rot-1),filt);
+            X = rot90(Xtest, (rot-1));                        
+            X = ufresh2(X, blocksize, heirarchy, index, Map);
             X = rot90(X, 4-(rot-1));
-            X = backprojection_2X(X,Ytest,filt);
+            X = backprojection_2X(X, Ytest, filt);
+            X = range0toN(X,[0,1]);
             Xrec(:,:,rot) = X;            
         end        
-
+%         res = resLearn(Xtest, 2, blocksize, heirarchy, index, Map, filt);
         Xtest = mean(Xrec,3);
-        Xtest = backprojection_2X(Xtest, Ytest,filt);
+%         Xtest = Xtest + res;
+        Xtest = backprojection_2X(Xtest, Ytest, filt);                
+        Xtest = range0toN(Xtest,[0,1]);
     end
     fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
     postpsnr(imgIdx)=psnr(Xtest,Ytest); 
