@@ -39,9 +39,10 @@ for imgIdx = 1:length(Xcell)
     prepsnr(imgIdx) = psnr(Xtest,Ytest);
     pressim(imgIdx) = ssim(Xtest,Ytest);
     %% Load trained model
-    load(sprintf('pyHeirarchy4096'));
+    load(sprintf('pyHeirarchy4096bior'));
     heirarchy = single(heirarchy);
-    load(sprintf('pyMap4096cell96'));   
+    index = index + 1; %python 0 index
+    load(sprintf('pyMap4096cell96bior'));   
     filt = 'bior4.4';
     for stage = 1:1
         ensembleSize = 4;

@@ -3,37 +3,35 @@ from numpy.linalg import inv
 import scipy
 import scipy.io
 import time
+from tqdm import tqdm
 
-xdict = scipy.io.loadmat('DX_all.mat')
-ydict = scipy.io.loadmat('DY_all.mat')
-X = xdict['X']
-Y = ydict['Y']
-i=8192
-# -----------------------------------
-tstart = time.time()
-loadfilename = 'pyCenter'+str(i)+'.mat'
-cent = scipy.io.loadmat(loadfilename)
-Center = cent['Center']
-cn = len(Center[0])
-clusterszA = 96-1
-lam = 0.01
-Map = np.ndarray([cn,25,25])
-for t in range(0,cn,1):
-    c1 = Center[...,t].reshape(-1,1)
-    D = scipy.spatial.distance.cdist(X.transpose(), Center[...,t].reshape(1,-1))
-    # This sorting part takes a long time!
-    dv = np.sort(D, axis=0)
-    idx = np.argsort(D, axis=0)
-    patchesL = np.squeeze(X[...,idx[0:clusterszA]], axis=2)
-    patchesH = np.squeeze(Y[..., idx[0:clusterszA]], axis=2)
-    M = patchesH.dot(patchesL.transpose().dot(
-        inv(patchesL.dot(patchesL.transpose())
-            + lam*np.identity(len(Center)))))
-    Map[t,:,:] = M
-    if(np.mod(t,32)==0):
-        print('Finished ',t,' out of ',cn)
-tend = time.time()
-print('Map generation took ',(tend-tstart),' seconds')
-savfilename = 'pyMap'+str(i)+'cell'+str(clusterszA+1)+'.mat'
-data = {'Map': Map}
-scipy.io.savemat(savfilename, data)
+
+
+def mapping_calculation(dxloc,dyloc,i,clusterszA):
+    xdict = scipy.io.loadmat(dxloc)
+    ydict = scipy.io.loadmat(dyloc)
+    X = xdict['X']
+    Y = ydict['Y']
+    loadfilename = 'data_files/pyCenter'+str(i)+'.mat'
+    cent = scipy.io.loadmat(loadfilename)
+    Center = cent['Center']
+    cn = len(Center[0])
+    # clusterszA = 96-1
+    lam = 0.01
+    Map = np.ndarray([cn,25,25])
+    Res = np.ndarray([cn,25])
+    for t in tqdm(range(0,cn,1)):
+        c1 = Center[...,t].reshape(1,-1)
+        D = scipy.spatial.distance.cdist(X.transpose(), c1)
+        # This sorting part takes a long time!
+        idx = np.argsort(D, axis=0)
+        LR = np.squeeze(X[..., idx[0:clusterszA]], axis=2)
+        HR = np.squeeze(Y[..., idx[0:clusterszA]], axis=2)
+        M = HR.dot(LR.transpose().dot(inv(LR.dot(LR.transpose())
+                   + lam * np.identity(len(Center)))))
+        Map[t,:,:] = M
+        Res[t,:] = HR.mean(axis=1) - np.dot(M,LR.mean(axis=1))
+    savfilename = 'data_files/pyMap'+str(i)+'cell'+str(clusterszA+1)+'.mat'
+    data = {'Map': Map, 'Res': Res}
+    scipy.io.savemat(savfilename, data)
+    return

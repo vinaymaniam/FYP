@@ -45,14 +45,16 @@ for imgIdx = 1:length(Xcell)
     prepsnr(imgIdx) = psnr(Xtest,Ytest);
     pressim(imgIdx) = ssim(Xtest,Ytest);
     %% Load trained model
-    load(sprintf('pyHeirarchy4096'));
+    load(sprintf('pyHeirarchy4096_'));
     heirarchy = single(heirarchy);   
-    % python uses 0 indexing
-    % index = index + 1;        
     load(sprintf('pyMap4096cell96'));    
     filt = 'db2'; % db2 gives much better results for FRESH input
     % Cascading makes things WORSE
     %% NEXT STEP - IMPLEMENT RESIDUAL LEARNING(FROM FRESH) IN V2
+    %% SEE tmp.m IF YOU FORGET WHAT YOU WERE DOING
+    %% CANNOT RECREATE GOOD QUALITY pyHeirarchy and pyMapCell for some reason
+    %% WHEN THIS BULLSHIT IS FIXED NEED TO FIGURE OUT A WAY TO USE Res IN pyMapCell
+    %% TO DO SOME SORT OF ERROR CORRECTION
     for stage = 1:1%2
         ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
         Xrec = zeros([size(Xtest),ensembleSize]);

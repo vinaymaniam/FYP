@@ -2,8 +2,8 @@
 function Xrecmean = reconstructFromMap(X_test_vec, Map, idx, dc_X)
     Xrec = zeros(size(X_test_vec,1),size(X_test_vec,2)); % recovered X;
     for i=1:size(X_test_vec,2)
-            s=X_test_vec(:,i);
-            Xrec(:,i)=Map{idx(i)}*s;
+        s=X_test_vec(:,i);
+        Xrec(:,i)=Map{idx(i)}*s;
     end
     Xrecmean = Xrec + repmat(dc_X, size(Xrec,1), 1);
 end
