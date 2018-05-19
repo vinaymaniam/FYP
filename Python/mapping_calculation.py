@@ -62,8 +62,8 @@ def mapping_calculationRANSAC(dxloc,dyloc,i,clusterszA):
         # DO RANSAC HERE----------------------------------------------------------------------------------------
         indices = idx[0:clusterszA]
         numTrials = 200 # This bit takes 0.6% of the total time so 200 trials wont severely affect training time
-        nRansac = 5     # Size of subset to take from indices for each iteration of ransac
-        thRansac = 1.05 # Threshold for detecting outliers(PSNR_best/PSNR_current > thRansac then outlier)
+        nRansac = 10     # Size of subset to take from indices for each iteration of ransac
+        thRansac = 1.2 # Threshold for detecting outliers(PSNR_best/PSNR_current > thRansac then outlier)
         minoutliers = np.inf
         Mbest = np.zeros([len(Center), len(Center)])
         for trial in range(0,numTrials):
@@ -84,6 +84,7 @@ def mapping_calculationRANSAC(dxloc,dyloc,i,clusterszA):
             if(noutliers < minoutliers):
                 minoutliers = noutliers
                 Mbest = M
+        print("Min Outliers = {}".format(minoutliers))#, end="\r")
         # END RANSAC HERE---------------------------------------------------------------------------------------
         Map[t,:,:] = Mbest
         LR = np.squeeze(X[..., indices], axis=2)
