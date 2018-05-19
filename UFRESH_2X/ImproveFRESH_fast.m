@@ -2,6 +2,7 @@ clear;
 dwtmode('spd')
 
 addpath('vinay')
+addpath('../Python/data_files')
 % testimgs = 'bior44';
 testimgs = 'fresh';
         
@@ -25,15 +26,19 @@ switch testimgs
             Xcell{i} = imresize(Xcell{i}, size(Ycell{i}));
         end
 end
-
 blocksize = [5, 5]; % the size of patch.
-% If stepsize < blocksize, there exists overlapping aeras among adjacent patches.
 stepsize = [1, 1];  
 if length(Xcell) ~= length(Ycell)	
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
 postssim=zeros(1,length(Xcell)); pressim = zeros(1,length(Xcell));
+%% Load trained model
+load(sprintf('pyHeirarchy4096'));
+heirarchy = single(heirarchy);   
+load(sprintf('pyMap4096cell96'));    
+filt = 'db2'; % db2 gives much better results for FRESH input
+%% Begin SR
 for imgIdx = 1:length(Xcell)
     stopwatch1 = tic;
 	fprintf('--------------------------------------------------------\n')
@@ -43,26 +48,16 @@ for imgIdx = 1:length(Xcell)
     Ytest = Ycell{imgIdx}; % HighResolution image Y    
     fprintf('[BEFORE] PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
     prepsnr(imgIdx) = psnr(Xtest,Ytest);
-    pressim(imgIdx) = ssim(Xtest,Ytest);
-    %% Load trained model
-    load(sprintf('pyHeirarchy4096_'));
-    heirarchy = single(heirarchy);   
-    load(sprintf('pyMap4096cell96'));    
-    filt = 'db2'; % db2 gives much better results for FRESH input
-    % Cascading makes things WORSE
+    pressim(imgIdx) = ssim(Xtest,Ytest);    
     %% NEXT STEP - IMPLEMENT RESIDUAL LEARNING(FROM FRESH) IN V2
-    %% SEE tmp.m IF YOU FORGET WHAT YOU WERE DOING
-    %% CANNOT RECREATE GOOD QUALITY pyHeirarchy and pyMapCell for some reason
-    %% WHEN THIS BULLSHIT IS FIXED NEED TO FIGURE OUT A WAY TO USE Res IN pyMapCell
-    %% TO DO SOME SORT OF ERROR CORRECTION
-    for stage = 1:1%2
+    %% NEED TO FIGURE OUT A WAY TO USE Res IN pyMapCell TO DO SOME SORT OF ERROR CORRECTION
+    for stage = 1:1%2 %Cascading stages actually makes things worse unless you train separate model for each stage
         ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
         Xrec = zeros([size(Xtest),ensembleSize]);
         for rot = 1:ensembleSize
             X = rot90(Xtest, (rot-1));                        
             X = ufresh2(X, blocksize, heirarchy, index, Map);
             X = rot90(X, 4-(rot-1));
-            X = backprojection_2X(X, Ytest, filt);
             X = range0toN(X,[0,1]);
             Xrec(:,:,rot) = X;            
         end        

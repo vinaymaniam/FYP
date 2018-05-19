@@ -2,7 +2,7 @@ import cProfile
 import re
 import pstats
 
-from runUFRESH import runUFRESH
+from full_training import runFullTraining
 
 import cProfile, pstats, io
 
@@ -10,14 +10,12 @@ def profile():
     pr = cProfile.Profile()
     pr.enable()
 
-    runUFRESH()
-
+    runFullTraining(0,1,0)
     pr.disable()
     s = io.StringIO()
-    sortby = 'cumulative'
+    sortby = 'tottime'
     ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
     ps.print_stats(10)
-    # print(s.getvalue())
+    print(s.getvalue())
     return
-
 profile()

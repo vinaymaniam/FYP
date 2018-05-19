@@ -40,6 +40,9 @@ for i = 1: n1
         Y = [Y Y_a];
     end
 end
+% Keep a copy of the non zero mean set
+X1 = X;
+Y1 = Y;
 % remove the mean (the dc component from each patch)
 Y = Y - repmat(mean(X), size(X, 1), 1);
 X = X - repmat(mean(X), size(X, 1), 1); % remove the low resolution 
@@ -55,6 +58,8 @@ Y_index = (Ynorm2 > variance_Thresh);
 XY_index=X_index|Y_index;	
 X = X(:, XY_index);    
 Y = Y(:, XY_index);
-save DX_all X;
-save DY_all Y;
+X1 = X1(:,XY_index);
+Y1 = Y1(:,XY_index);
+save DX_all X X1;
+save DY_all Y Y1;
 toc
