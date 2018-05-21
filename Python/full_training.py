@@ -12,12 +12,13 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     if(rkm==1):
         run_kmeans(dx, n)
     if(rmc==1):
-        # mapping_calculation(dx,dy,n,96-1)
-        mapping_calculationRANSAC(dx, dy, n, 96 - 1)
+        # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
+        mapping_calculation(dx,dy,n,96-1)
+        # mapping_calculationRANSAC(dx, dy, n, 96 - 1)
     if(rcm2c==1):
         cent_to_heir(n)
         eng = matlab.engine.start_matlab()
         success = eng.ConvMat2Cell(n)
     return success
 
-runFullTraining(0,1,1)
+runFullTraining(0,0,1)
