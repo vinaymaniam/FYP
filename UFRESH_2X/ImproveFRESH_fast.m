@@ -61,10 +61,9 @@ for imgIdx = 1:length(Xcell)
             X = range0toN(X,[0,1]);
             Xrec(:,:,rot) = X;            
         end        
-%         res = resLearn(Xtest, 2, blocksize, heirarchy, index, Map, filt);
         Xtest = mean(Xrec,3);
-%         Xtest = Xtest + res;
-        Xtest = backprojection_2X(Xtest, Ytest, filt);                
+        Xtest = backprojection_2X(Xtest, Ytest, filt);     
+        % Clip image to 0-1 range
         Xtest = range0toN(Xtest,[0,1]);
     end
     fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));

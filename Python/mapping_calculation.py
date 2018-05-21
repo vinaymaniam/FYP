@@ -14,7 +14,7 @@ def mapping_calculation(dxloc, dyloc, i, clusterszA):
     ydict = scipy.io.loadmat(dyloc)
     X = xdict['X']
     Y = ydict['Y']
-    # Non mean removed versions for PSNR calculation in RANSAC
+    # Non mean removed versions for PSNR calculation
     X1 = xdict['X1']
     Y1 = ydict['Y1']
     loadfilename = 'data_files/pyCenter' + str(i) + '.mat'
@@ -24,38 +24,39 @@ def mapping_calculation(dxloc, dyloc, i, clusterszA):
     Map = np.ndarray([cn, 25, 26])
     Res = np.ndarray([cn, 25])
     lams = np.array([0.01, 0.003, 0.001, 0.0003, 0.0001])
-    psnrs = np.zeros([len(lams), clusterszA])
-    for lambdas in range(0,5):
-        lam = lams[lambdas]
-        for t in tqdm(range(0, cn, 1)):
-            c1 = Center[..., t].reshape(1, -1)
-            # This cdist part takes a very long time
-            D = scipy.spatial.distance.cdist(X.transpose(), c1)
-            idx = np.argsort(D, axis=0)
-            LR = np.squeeze(X[..., idx[0:clusterszA]], axis=2)
-            HR = np.squeeze(Y[..., idx[0:clusterszA]], axis=2)
-            # Add in bias term so regression model learns bias
-            LR = np.append(LR, np.ones([1,LR.shape[1]]), axis=0)
-            M = HR.dot(LR.transpose().dot(inv(LR.dot(LR.transpose())
-                                              + lam * np.identity(len(LR)))))
-            #----Debug-----------------------------------
-            LR1 = np.squeeze(X1[..., idx[0:clusterszA]], axis=2)
-            HR1 = np.squeeze(Y1[..., idx[0:clusterszA]], axis=2)
-            meanLR = LR1.mean(axis=0)
-            SR = np.dot(M,LR) + np.tile(meanLR,[M.shape[0],1])
-            mse = ((HR1 - SR) ** 2).mean(axis=0)
-            psnrs[lambdas,:] = psnrs[lambdas,:] + 10 * np.log10(mse ** -1)
-            #--------------------------------------------
-            Map[t, :, :] = M
-            # Res[t, :] = HR.mean(axis=1) - np.dot(M, LR.mean(axis=1))
-    psnrs = psnrs/cn
-    fig = plt.figure()
-    fig.suptitle("PSNR for different lambdas")
-    ax = fig.add_subplot(111)
-    for i in range(0,len(lams)):
-        ax.plot(psnrs[i,:],label=str(lams[i]))
-    ax.legend()
-    plt.show()
+    # psnrs = np.zeros([len(lams), clusterszA])
+    # for lambdas in range(0,5):
+    #     lam = lams[lambdas]
+    lam = 0.0003
+    for t in tqdm(range(0, cn, 1)):
+        c1 = Center[..., t].reshape(1, -1)
+        # This cdist part takes a very long time
+        D = scipy.spatial.distance.cdist(X.transpose(), c1)
+        idx = np.argsort(D, axis=0)
+        LR = np.squeeze(X[..., idx[0:clusterszA]], axis=2)
+        HR = np.squeeze(Y[..., idx[0:clusterszA]], axis=2)
+        # Add in bias term so regression model learns bias
+        LR = np.append(LR, np.ones([1,LR.shape[1]]), axis=0)
+        M = HR.dot(LR.transpose().dot(inv(LR.dot(LR.transpose())
+                                          + lam * np.identity(len(LR)))))
+        #----Debug-----------------------------------
+        # LR1 = np.squeeze(X1[..., idx[0:clusterszA]], axis=2)
+        # HR1 = np.squeeze(Y1[..., idx[0:clusterszA]], axis=2)
+        # meanLR = LR1.mean(axis=0)
+        # SR = np.dot(M,LR) + np.tile(meanLR,[M.shape[0],1])
+        # mse = ((HR1 - SR) ** 2).mean(axis=0)
+        # psnrs[lambdas,:] = psnrs[lambdas,:] + 10 * np.log10(mse ** -1)
+        #--------------------------------------------
+        Map[t, :, :] = M
+        # Res[t, :] = HR.mean(axis=1) - np.dot(M, LR.mean(axis=1))
+    # psnrs = psnrs/cn
+    # fig = plt.figure()
+    # fig.suptitle("PSNR for different lambdas")
+    # ax = fig.add_subplot(111)
+    # for i in range(0,len(lams)):
+    #     ax.plot(psnrs[i,:],label=str(lams[i]))
+    # ax.legend()
+    # plt.show()
     savfilename = 'data_files/pyMap' + str(i) + 'mat' + str(clusterszA + 1) + '.mat'
     data = {'Map': Map, 'Res': Res}
     scipy.io.savemat(savfilename, data)
