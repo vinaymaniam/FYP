@@ -21,4 +21,4 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
         success = eng.ConvMat2Cell(n)
     return success
 
-runFullTraining(0,0,1)
+runFullTraining(0,1,1)
