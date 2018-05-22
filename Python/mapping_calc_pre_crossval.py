@@ -3,9 +3,8 @@ from numpy.linalg import inv
 import scipy
 import scipy.io
 import random
-from sklearn.model_selection import KFold
 
-from tqdm import tqdm, tqdm_gui
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 
@@ -24,45 +23,40 @@ def mapping_calculation(dxloc, dyloc, i, clusterszA):
     cn = len(Center[0])
     Map = np.ndarray([cn, 25, 26])
     Res = np.ndarray([cn, 25])
-    lams = np.array([0.01, 0.001, 0.0003, 0.0001, 0])
-    # ---------- GENERATE CROSS VALIDATION INDICES --------------------
-    kf = KFold(n_splits=10)
-    for t in tqdm_gui(range(0, cn, 1)):
+    lams = np.array([0.01, 0.003, 0.001, 0.0003, 0.0001])
+    # psnrs = np.zeros([len(lams), clusterszA])
+    # for lambdas in range(0,5):
+    #     lam = lams[lambdas]
+    lam = 0.0003
+    for t in tqdm(range(0, cn, 1)):
         c1 = Center[..., t].reshape(1, -1)
+        # This cdist part takes a very long time
         D = scipy.spatial.distance.cdist(X.transpose(), c1)
         idx = np.argsort(D, axis=0)
-        LR_ = np.squeeze(X[..., idx[0:clusterszA]], axis=2)
-        HR_ = np.squeeze(Y[..., idx[0:clusterszA]], axis=2)
+        LR = np.squeeze(X[..., idx[0:clusterszA]], axis=2)
+        HR = np.squeeze(Y[..., idx[0:clusterszA]], axis=2)
         # Add in bias term so regression model learns bias
-        LR_ = np.append(LR_, np.ones([1, LR_.shape[1]]), axis=0)
-        # ------------- PERFORM CROSS VALIDATION --------------------------- #
-        psnrs = np.zeros(len(lams))
-        for lambdas in range(0, 5):
-            lam = lams[lambdas]
-            for idx_tr, idx_te in kf.split(X.T):
-                Xte = X1[:,idx_te]
-                Yte = Y1[:,idx_te]
-
-                idx_cvtr = idx[np.in1d(idx, idx_tr)]
-                idx_cvte = idx[np.in1d(idx, idx_te)]
-
-                LR = np.squeeze(X[..., idx_cvtr[0:clusterszA]], axis=2)
-                HR = np.squeeze(Y[..., idx_cvtr[0:clusterszA]], axis=2)
-                # Add in bias term so regression model learns bias
-                LR = np.append(LR, np.ones([1,LR.shape[1]]), axis=0)
-                M = HR.dot(LR.transpose().dot(inv(LR.dot(LR.transpose())
-                                                  + lam * np.identity(len(LR)))))
-                #----Evaluate Cross Val Error----------------
-                LR1 = np.squeeze(X1[..., idx_cvte[0:clusterszA]], axis=2)
-                HR1 = np.squeeze(Y1[..., idx_cvte[0:clusterszA]], axis=2)
-                meanLR = LR1.mean(axis=0)
-                SR = np.dot(M,LR) + np.tile(meanLR,[M.shape[0],1])
-                mse = ((HR1 - SR) ** 2).mean(axis=0)
-                psnrs[lambdas] = psnrs[lambdas] + np.mean(10 * np.log10(mse ** -1))
-        # ------------- END OF CROSS VALIDATION ---------------------------- #
-        lambdaBest = lams[np.argmin(psnrs)]
-        Map[t, :, :] = HR_.dot(LR_.transpose().dot(inv(LR_.dot(LR_.transpose())
-                                          + lambdaBest * np.identity(len(LR_)))))
+        LR = np.append(LR, np.ones([1,LR.shape[1]]), axis=0)
+        M = HR.dot(LR.transpose().dot(inv(LR.dot(LR.transpose())
+                                          + lam * np.identity(len(LR)))))
+        #----Debug-----------------------------------
+        # LR1 = np.squeeze(X1[..., idx[0:clusterszA]], axis=2)
+        # HR1 = np.squeeze(Y1[..., idx[0:clusterszA]], axis=2)
+        # meanLR = LR1.mean(axis=0)
+        # SR = np.dot(M,LR) + np.tile(meanLR,[M.shape[0],1])
+        # mse = ((HR1 - SR) ** 2).mean(axis=0)
+        # psnrs[lambdas,:] = psnrs[lambdas,:] + 10 * np.log10(mse ** -1)
+        #--------------------------------------------
+        Map[t, :, :] = M
+        # Res[t, :] = HR.mean(axis=1) - np.dot(M, LR.mean(axis=1))
+    # psnrs = psnrs/cn
+    # fig = plt.figure()
+    # fig.suptitle("PSNR for different lambdas")
+    # ax = fig.add_subplot(111)
+    # for i in range(0,len(lams)):
+    #     ax.plot(psnrs[i,:],label=str(lams[i]))
+    # ax.legend()
+    # plt.show()
     savfilename = 'data_files/pyMap' + str(i) + 'mat' + str(clusterszA + 1) + '.mat'
     data = {'Map': Map, 'Res': Res}
     scipy.io.savemat(savfilename, data)
