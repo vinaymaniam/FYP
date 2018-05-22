@@ -34,9 +34,10 @@ end
 postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
 postssim=zeros(1,length(Xcell)); pressim = zeros(1,length(Xcell));
 %% Load trained model
-load(sprintf('pyHeirarchy4096'));
+n = 1024;
+load(sprintf('pyHeirarchy%i',n));
 heirarchy = single(heirarchy);   
-load(sprintf('pyMap4096cell96'));    
+load(sprintf('pyMap%icell96',n));    
 filt = 'db2'; % db2 gives much better results for FRESH input
 %% Begin SR
 for imgIdx = 1:length(Xcell)

@@ -1,5 +1,6 @@
 from run_kmeans import run_kmeans
-from mapping_calculation import mapping_calculation, mapping_calculationRANSAC
+# from mapping_calculation import mapping_calculation, mapping_calculationRANSAC
+from mapping_calc_pre_crossval import mapping_calculation
 from cent_to_heir import cent_to_heir
 import matlab.engine
 
@@ -7,7 +8,7 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     dx = 'DX_and_DY/DX_all.mat'
     dy = 'DX_and_DY/DY_all.mat'
 
-    n = 4096
+    n = 16384
     success = 1
     if(rkm==1):
         run_kmeans(dx, n)
@@ -21,4 +22,4 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
         success = eng.ConvMat2Cell(n)
     return success
 
-runFullTraining(0,1,1)
+runFullTraining(1,1,1)

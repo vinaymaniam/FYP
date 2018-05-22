@@ -5,8 +5,10 @@ import scipy.io
 import random
 from sklearn.model_selection import KFold
 
-from tqdm import tqdm, tqdm_gui
 import matplotlib.pyplot as plt
+from tqdm import tqdm, tqdm_gui
+from joblib import Parallel
+import multiprocessing
 
 
 
@@ -27,7 +29,7 @@ def mapping_calculation(dxloc, dyloc, i, clusterszA):
     lams = np.array([0.01, 0.001, 0.0003, 0.0001, 0])
     # ---------- GENERATE CROSS VALIDATION INDICES --------------------
     kf = KFold(n_splits=10)
-    for t in tqdm_gui(range(0, cn, 1)):
+    for t in tqdm(range(0, cn, 1)):
         c1 = Center[..., t].reshape(1, -1)
         D = scipy.spatial.distance.cdist(X.transpose(), c1)
         idx = np.argsort(D, axis=0)
@@ -37,12 +39,9 @@ def mapping_calculation(dxloc, dyloc, i, clusterszA):
         LR_ = np.append(LR_, np.ones([1, LR_.shape[1]]), axis=0)
         # ------------- PERFORM CROSS VALIDATION --------------------------- #
         psnrs = np.zeros(len(lams))
-        for lambdas in range(0, 5):
+        for lambdas in range(0, len(lams)):
             lam = lams[lambdas]
             for idx_tr, idx_te in kf.split(X.T):
-                Xte = X1[:,idx_te]
-                Yte = Y1[:,idx_te]
-
                 idx_cvtr = idx[np.in1d(idx, idx_tr)]
                 idx_cvte = idx[np.in1d(idx, idx_te)]
 

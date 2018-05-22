@@ -23,7 +23,7 @@ def mapping_calculation(dxloc, dyloc, i, clusterszA):
     cn = len(Center[0])
     Map = np.ndarray([cn, 25, 26])
     Res = np.ndarray([cn, 25])
-    lams = np.array([0.01, 0.003, 0.001, 0.0003, 0.0001])
+    # lams = np.array([0.01, 0.003, 0.001, 0.0003, 0.0001])
     # psnrs = np.zeros([len(lams), clusterszA])
     # for lambdas in range(0,5):
     #     lam = lams[lambdas]
@@ -37,8 +37,13 @@ def mapping_calculation(dxloc, dyloc, i, clusterszA):
         HR = np.squeeze(Y[..., idx[0:clusterszA]], axis=2)
         # Add in bias term so regression model learns bias
         LR = np.append(LR, np.ones([1,LR.shape[1]]), axis=0)
-        M = HR.dot(LR.transpose().dot(inv(LR.dot(LR.transpose())
-                                          + lam * np.identity(len(LR)))))
+        LLT = LR.dot(LR.transpose())
+        eigvals = np.linalg.eig(LLT)
+        if (any(eigvals[0] < lam)):
+            LLT = LLT + lam*np.identity(len(LR))
+        else:
+            print('All good')
+        M = HR.dot(LR.transpose().dot(inv(LLT)))
         #----Debug-----------------------------------
         # LR1 = np.squeeze(X1[..., idx[0:clusterszA]], axis=2)
         # HR1 = np.squeeze(Y1[..., idx[0:clusterszA]], axis=2)
