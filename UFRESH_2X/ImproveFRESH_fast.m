@@ -32,7 +32,7 @@ if length(Xcell) ~= length(Ycell)
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 % nvals = [128,256,512,1024,2048,4096,8192,16384];
-nvals = [16384];
+nvals = [2048];
 meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
@@ -80,7 +80,7 @@ for n = nvals
         postssim(imgIdx)=ssim(Xtest,Ytest); 
         toc(stopwatch1)
         tpp(imgIdx) = toc(stopwatch1)/numel(Ytest);
-        visualiseImprovement(Xcell{imgIdx}, Xtest, Ytest)
+%         visualiseImprovement(Xcell{imgIdx}, Xtest, Ytest)
     end
     fprintf('============================================================\n')
     fprintf('Average PSNR across all images = %.2f\n',mean(postpsnr))
