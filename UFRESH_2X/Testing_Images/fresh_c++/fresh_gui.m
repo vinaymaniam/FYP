@@ -27,10 +27,10 @@ function fresh_gui
 % this package (Legal_Notice.txt).
 
 dwtmode('per','nodisp');
-Center=load ('Center2048.mat');
-Map=load ('Map2048.mat');
-Center=Center.Center;
-Map=Map.Map;
+% Center=load ('Center2048.mat');
+% Map=load ('Map2048.mat');
+% Center=Center.Center;
+% Map=Map.Map;
 block_size = 64;
 level = 2;
 diag_reg = 1;

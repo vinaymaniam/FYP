@@ -50,12 +50,12 @@ for n = nvals
     %% Begin SR
     for imgIdx = 1:length(Xcell)
         stopwatch1 = tic;
-%         fprintf('--------------------------------------------------------\n')
-%         fprintf('Processing image %d of total %d ... \n', imgIdx, length(Xcell));
+        fprintf('--------------------------------------------------------\n')
+        fprintf('Processing image %d of total %d ... \n', imgIdx, length(Xcell));
 
         Xtest = Xcell{imgIdx}; % LowRresolution image X
         Ytest = Ycell{imgIdx}; % HighResolution image Y    
-%         fprintf('[BEFORE] PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
+        fprintf('[BEFORE] PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
         prepsnr(imgIdx) = psnr(Xtest,Ytest);
         pressim(imgIdx) = ssim(Xtest,Ytest);    
         %% NEXT STEP - IMPLEMENT RESIDUAL LEARNING(FROM FRESH) IN V2
@@ -75,11 +75,12 @@ for n = nvals
             % Clip image to 0-1 range
             Xtest = range0toN(Xtest,[0,1]);
         end
-%         fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
+        fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
         postpsnr(imgIdx)=psnr(Xtest,Ytest); 
         postssim(imgIdx)=ssim(Xtest,Ytest); 
-%         toc(stopwatch1)
+        toc(stopwatch1)
         tpp(imgIdx) = toc(stopwatch1)/numel(Ytest);
+        visualiseImprovement(Xcell{imgIdx}, Xtest, Ytest)
     end
     fprintf('============================================================\n')
     fprintf('Average PSNR across all images = %.2f\n',mean(postpsnr))
@@ -88,7 +89,7 @@ for n = nvals
     fprintf('Average Time Per Pixel = %f\n',mean(tpp))
     meanpsnrs(log2(n)-6) = mean(postpsnr);
     meanssims(log2(n)-6) = mean(postssim);
-    meantimeperpixel(log2(n)-6) = mean(tpp);
+    meantimeperpixel(log2(n)-6) = mean(tpp);    
 end
 
 plot = 0;
