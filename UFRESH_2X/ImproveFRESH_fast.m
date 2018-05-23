@@ -31,7 +31,8 @@ stepsize = [1, 1];
 if length(Xcell) ~= length(Ycell)	
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
-nvals = [128,256,512,1024,2048,4096,8192,16384];
+% nvals = [128,256,512,1024,2048,4096,8192,16384];
+nvals = [16384];
 meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
@@ -90,26 +91,29 @@ for n = nvals
     meantimeperpixel(log2(n)-6) = mean(tpp);
 end
 
-% Plot results
-figure;
-plot(nvals, meanpsnrs)
-xlabel('Number of Centroids')
-ylabel('Average PSNR(dB)')
-title('Impact of # Centroids on PSNR(Set 5)');
-% title('Impact of # Centroids on PSNR(Set 14)');
+plot = 0;
+if plot
+    % Plot results
+    figure;
+    plot(nvals, meanpsnrs)
+    xlabel('Number of Centroids')
+    ylabel('Average PSNR(dB)')
+    title('Impact of # Centroids on PSNR(Set 5)');
+    % title('Impact of # Centroids on PSNR(Set 14)');
 
-figure;
-plot(nvals, meanssims)
-xlabel('Number of Centroids')
-ylabel('Average SSIM')
-title('Impact of # Centroids on SSIM(Set 5)');
-% title('Impact of # Centroids on SSIM(Set 14)');
+    figure;
+    plot(nvals, meanssims)
+    xlabel('Number of Centroids')
+    ylabel('Average SSIM')
+    title('Impact of # Centroids on SSIM(Set 5)');
+    % title('Impact of # Centroids on SSIM(Set 14)');
 
-figure;
-plot(nvals, meantimeperpixel,'o--')
-xlabel('Number of Centroids')
-ylabel('Average Time Per Pixel')
-title('Impact of # Centroids on Runtime Speed');
+    figure;
+    plot(nvals, meantimeperpixel,'o--')
+    xlabel('Number of Centroids')
+    ylabel('Average Time Per Pixel')
+    title('Impact of # Centroids on Runtime Speed');
+end
 
 
         

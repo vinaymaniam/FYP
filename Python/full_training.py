@@ -8,7 +8,7 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     dx = 'DX_and_DY/DX_all.mat'
     dy = 'DX_and_DY/DY_all.mat'
 
-    n = 4096
+    n = 16384
     success = 1
     if(rkm==1):
         run_kmeans(dx, n)
