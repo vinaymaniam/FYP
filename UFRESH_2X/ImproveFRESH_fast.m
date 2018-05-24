@@ -41,11 +41,7 @@ for n = nvals
     postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
     postssim=zeros(1,length(Xcell)); pressim = zeros(1,length(Xcell));
     tpp = zeros(1,length(Xcell));
-    %% Load trained model
-    % n = 1024;
-    load(sprintf('pyHeirarchy%i',n));
-    heirarchy = single(heirarchy);   
-    load(sprintf('pyMap%icell96',n));    
+    %% Specify wavelet function    
     filt = 'db2'; % db2 gives much better results for FRESH input
     %% Begin SR
     for imgIdx = 1:length(Xcell)
@@ -60,7 +56,11 @@ for n = nvals
         pressim(imgIdx) = ssim(Xtest,Ytest);    
         %% NEXT STEP - IMPLEMENT RESIDUAL LEARNING(FROM FRESH) IN V2
         %% NEED TO FIGURE OUT A WAY TO USE Res IN pyMapCell TO DO SOME SORT OF ERROR CORRECTION
-        for stage = 1:1%2 %Cascading stages actually makes things worse unless you train separate model for each stage
+        for stage = 1:1
+            %% Load trained model
+            load(sprintf('%ipyHeirarchy%i',stage,n));
+            heirarchy = single(heirarchy);   
+            load(sprintf('%ipyMap%icell96',stage,n));
             ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize

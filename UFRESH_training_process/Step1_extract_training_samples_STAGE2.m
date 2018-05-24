@@ -7,7 +7,7 @@ addpath('ksvd/ompbox');
 addpath('utils');
 addpath('Step2_Kmeans_clustering');
 
-directory_x = 'TrainingData/FRESH_1stage'; 
+directory_x = 'TrainingData/UFRESH2048'; 
 % directory_x = 'TrainingData/bior44'; 
 pattern = '*.bmp';
 directory_y = 'TrainingData/GT'; 
@@ -60,6 +60,6 @@ X = X(:, XY_index);
 Y = Y(:, XY_index);
 X1 = X1(:,XY_index);
 Y1 = Y1(:,XY_index);
-save DX_all X X1;
-save DY_all Y Y1;
+save DX_all2048 X X1;
+save DY_all2048 Y Y1;
 toc

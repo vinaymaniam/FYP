@@ -3,40 +3,35 @@ dwtmode('spd')
 
 addpath('vinay')
 addpath('../Python/data_files')
-% testimgs = 'bior44';
-testimgs = 'fresh';
-        
-directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
-% directory_x = 'Testing_Images/bicubic/Set5'; 
-% directory_x = 'Testing_Images/bior44/Set5';
-% directory_x = 'Testing_Images/db2/Set5';
+
+nvals = [2048];
+directory_x = 'TrainingData/FRESH_1stage'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set5'; 
+directory_y = 'TrainingData/GT'; 
+destdir = sprintf('TrainingData/UFRESH%d',nvals);
 
-XpathCell = glob(directory_x, pattern );
-Xcell = load_images( XpathCell );
-YpathCell = glob(directory_y, pattern );
-Ycell = load_images( YpathCell );
-
-switch testimgs
-    case 'bior44'
-        zcell = cell(length(Xcell));
-        for i = 1:length(Xcell)
-            zcell{i} = Xcell{i};
-            Xcell{i} = imresize(Xcell{i}, size(Ycell{i}));
-        end
-end
+Xcell = load_images(glob(directory_x, pattern));
+Ycell = load_images(glob(directory_y, pattern ));
 blocksize = [5, 5]; % the size of patch.
 stepsize = [1, 1];  
 if length(Xcell) ~= length(Ycell)	
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
-meanpsnrs = zeros(1,8);
-meanssims = zeros(1,8);
-for n = [128,256,512,1024,2048,4096,8192,16384]
+
+names = dir('TrainingData/GT');
+names = names(3:end);
+names = {names.name};
+names = replace(names,'.bmp','');
+
+
+meanpsnrs = zeros(length(nvals),1);
+meanssims = zeros(length(nvals),1);
+meantimeperpixel = zeros(length(nvals),1);
+for n = nvals
     fprintf('################   %d    #####################\n',n)
     postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
     postssim=zeros(1,length(Xcell)); pressim = zeros(1,length(Xcell));
+    tpp = zeros(1,length(Xcell));
     %% Load trained model
     % n = 1024;
     load(sprintf('pyHeirarchy%i',n));
@@ -46,12 +41,11 @@ for n = [128,256,512,1024,2048,4096,8192,16384]
     %% Begin SR
     for imgIdx = 1:length(Xcell)
         stopwatch1 = tic;
-%         fprintf('--------------------------------------------------------\n')
-%         fprintf('Processing image %d of total %d ... \n', imgIdx, length(Xcell));
-
+        fprintf('--------------------------------------------------------\n')
+        fprintf('Processing image %d of total %d ... \n', imgIdx, length(Xcell));
         Xtest = Xcell{imgIdx}; % LowRresolution image X
         Ytest = Ycell{imgIdx}; % HighResolution image Y    
-%         fprintf('[BEFORE] PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
+        fprintf('[BEFORE] PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
         prepsnr(imgIdx) = psnr(Xtest,Ytest);
         pressim(imgIdx) = ssim(Xtest,Ytest);    
         %% NEXT STEP - IMPLEMENT RESIDUAL LEARNING(FROM FRESH) IN V2
@@ -71,23 +65,15 @@ for n = [128,256,512,1024,2048,4096,8192,16384]
             % Clip image to 0-1 range
             Xtest = range0toN(Xtest,[0,1]);
         end
-%         fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
+        fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
         postpsnr(imgIdx)=psnr(Xtest,Ytest); 
         postssim(imgIdx)=ssim(Xtest,Ytest); 
-%         toc(stopwatch1)
+        toc(stopwatch1)
+        imgname = sprintf('%s//%s_PSNR%.2f.bmp',destdir,names{imgIdx},postpsnr(imgIdx));
+        imwrite(Xtest, imgname);
     end
-    fprintf('============================================================\n')
-    fprintf('Average PSNR across all images = %.2f\n',mean(postpsnr))
-    fprintf('Average improvement in PSNR = %.2f\n',mean(postpsnr-prepsnr))
-    fprintf('Average improvement in SSIM = %.2f\n',mean(postssim-pressim))
-    meanpsnrs(log2(n)-6) = mean(postpsnr);
-    meanssims(log2(n)-6) = mean(postssim);
+    fprintf('============================================================\n')    
 end
-
-% Plot results
-figure;
-semilog
-
 
 
         

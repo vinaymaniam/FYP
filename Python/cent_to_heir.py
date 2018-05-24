@@ -6,7 +6,7 @@ import sklearn
 from sklearn.cluster import MiniBatchKMeans
 
 
-def cent_to_heir(sz):
+def cent_to_heir(sz, stage):
     loadfilename = 'data_files/pyCenter'+str(sz)+'.mat'
     cent = scipy.io.loadmat(loadfilename)
     Center = cent['Center'].transpose()
@@ -27,5 +27,5 @@ def cent_to_heir(sz):
 
     index = index + 1 # matlab requires 1 indexed arrays
     data = {'heirarchy': heirarchy, 'index': index}
-    savfilename = 'data_files/pyHeirarchy'+str(sz)+'.mat'
+    savfilename = 'data_files/'+str(stage)+'pyHeirarchy'+str(sz)+'.mat'
     scipy.io.savemat(savfilename, data)
