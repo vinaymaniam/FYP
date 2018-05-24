@@ -25,10 +25,10 @@ Y = [];
 
 [n1, n2] = size(Xcell);
 for i = 1: n1
-    fprintf('%i out of %i\n',i,n1)
-    for j = 1: n2
-        X_temp = Xcell{i,j};         
-        Y_temp = Ycell{i,j};
+    fprintf('%i out of %i\n',i,n1)   
+    for j = 1:4         
+        X_temp = rot90(Xcell{i}, j-1);         
+        Y_temp = rot90(Ycell{i}, j-1);
 
         p = ndims(Y_temp); % Number of dimensions.
         ids = cell(p,1); % indices
@@ -60,6 +60,6 @@ X = X(:, XY_index);
 Y = Y(:, XY_index);
 X1 = X1(:,XY_index);
 Y1 = Y1(:,XY_index);
-save DX_all X X1;
-save DY_all Y Y1;
+save DX_all_rots X X1;
+save DY_all_rots Y Y1;
 toc
