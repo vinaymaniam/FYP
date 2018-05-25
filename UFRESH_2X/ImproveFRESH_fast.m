@@ -3,29 +3,17 @@ dwtmode('spd')
 
 addpath('vinay')
 addpath('../Python/data_files')
-% testimgs = 'bior44';
-testimgs = 'fresh';
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
-% directory_x = 'Testing_Images/bicubic/Set5'; 
-% directory_x = 'Testing_Images/bior44/Set5';
-% directory_x = 'Testing_Images/db2/Set5';
+directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set5'; 
+directory_y = 'Testing_Images/GT/Set14'; 
 
 XpathCell = glob(directory_x, pattern );
 Xcell = load_images( XpathCell );
 YpathCell = glob(directory_y, pattern );
 Ycell = load_images( YpathCell );
 
-switch testimgs
-    case 'bior44'
-        zcell = cell(length(Xcell));
-        for i = 1:length(Xcell)
-            zcell{i} = Xcell{i};
-            Xcell{i} = imresize(Xcell{i}, size(Ycell{i}));
-        end
-end
+
 blocksize = [5, 5]; % the size of patch.
 stepsize = [1, 1];  
 if length(Xcell) ~= length(Ycell)	
@@ -56,7 +44,7 @@ for n = nvals
         pressim(imgIdx) = ssim(Xtest,Ytest);    
         %% NEXT STEP - IMPLEMENT RESIDUAL LEARNING(FROM FRESH) IN V2
         %% NEED TO FIGURE OUT A WAY TO USE Res IN pyMapCell TO DO SOME SORT OF ERROR CORRECTION
-        for stage = 1:1
+        for stage = 1:2
             %% Load trained model
             load(sprintf('%ipyHeirarchy%i',stage,n));
             heirarchy = single(heirarchy);   
@@ -71,7 +59,8 @@ for n = nvals
                 Xrec(:,:,rot) = X;            
             end        
             Xtest = mean(Xrec,3);
-            Xtest = backprojection_2X(Xtest, Ytest, filt);     
+%             Xtest = backprojection_2X(Xtest, Ytest, filt); 
+            Xtest = backprojection_2X(Xtest, Xcell{imgIdx}, filt); 
             % Clip image to 0-1 range
             Xtest = range0toN(Xtest,[0,1]);
         end
@@ -84,8 +73,9 @@ for n = nvals
     end
     fprintf('============================================================\n')
     fprintf('Average PSNR across all images = %.2f\n',mean(postpsnr))
+    fprintf('Average SSIM across all images = %.3f\n',mean(postssim))
     fprintf('Average improvement in PSNR = %.2f\n',mean(postpsnr-prepsnr))
-    fprintf('Average improvement in SSIM = %.2f\n',mean(postssim-pressim))
+    fprintf('Average improvement in SSIM = %.3f\n',mean(postssim-pressim))
     fprintf('Average Time Per Pixel = %f\n',mean(tpp))
     meanpsnrs(log2(n)-6) = mean(postpsnr);
     meanssims(log2(n)-6) = mean(postssim);
