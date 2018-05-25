@@ -33,11 +33,12 @@ def mapping_calculation(dxloc, dyloc, i, clusterszA):
         # Add in bias term so regression model learns bias
         LR = np.append(LR, np.ones([1,LR.shape[1]]), axis=0)
         LLT = LR.dot(LR.transpose())
-        eigvals = np.linalg.eig(LLT)
-        if (any(eigvals[0] < lam)):
-            LLT = LLT + lam*np.identity(len(LR))
-        else:
-            print('All good')
+        LLT = LLT + lam * np.identity(len(LR))
+        # eigvals = np.linalg.eig(LLT)
+        # if (any(eigvals[0] < lam)):
+        #     LLT = LLT + lam*np.identity(len(LR))
+        # else:
+        #     print('All good')
         M = HR.dot(LR.transpose().dot(inv(LLT)))
         Map[t, :, :] = M
     savfilename = 'data_files/pyMap' + str(i) + 'mat' + str(clusterszA + 1) + '.mat'
