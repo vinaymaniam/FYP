@@ -4,9 +4,9 @@ dwtmode('spd')
 addpath('vinay')
 addpath('../Python/data_files')
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
+directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set5'; 
+directory_y = 'Testing_Images/GT/Set14'; 
 
 XpathCell = glob(directory_x, pattern );
 Xcell = load_images( XpathCell );
@@ -20,7 +20,7 @@ if length(Xcell) ~= length(Ycell)
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 % nvals = [128,256,512,1024,2048,4096,8192,16384];
-nvals = [16384];
+nvals = [2048];
 meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
@@ -44,7 +44,7 @@ for n = nvals
         pressim(imgIdx) = ssim(Xtest,Ytest);    
         %% NEXT STEP - IMPLEMENT RESIDUAL LEARNING(FROM FRESH) IN V2
         %% NEED TO FIGURE OUT A WAY TO USE Res IN pyMapCell TO DO SOME SORT OF ERROR CORRECTION
-        for stage = 1:1
+        for stage = 1:4
             %% Load trained model
             load(sprintf('%ipyHeirarchy%i',stage,n));
             heirarchy = single(heirarchy);   
@@ -53,8 +53,8 @@ for n = nvals
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
                 X = rot90(Xtest, (rot-1));                        
-                %X = ufresh2(X, blocksize, heirarchy, index, Map);
-                X = ufresh3(X, blocksize, heirarchy, index, Map);
+                X = ufresh2(X, blocksize, heirarchy, index, Map);
+                % X = ufresh3(X, blocksize, heirarchy, index, Map);
                 X = rot90(X, 4-(rot-1));
                 X = range0toN(X,[0,1]);
                 Xrec(:,:,rot) = X;            

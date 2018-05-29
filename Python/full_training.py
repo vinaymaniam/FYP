@@ -12,9 +12,12 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     if(stage == 1):
         dx = 'DX_and_DY/DX_all.mat'
         dy = 'DX_and_DY/DY_all.mat'
-    else:
+    elif (stage == 2):
         dx = 'DX_and_DY/DX_all'+str(n)+'.mat'
         dy = 'DX_and_DY/DY_all'+str(n)+'.mat'
+    elif (stage >= 3):
+        dx = 'DX_and_DY/DX_all' + str(n) + '_' + str(stage-1) + '.mat'
+        dy = 'DX_and_DY/DY_all' + str(n) + '_' + str(stage-1) + '.mat'
 
     if(rkm==1):
         run_kmeans(dx, n)
