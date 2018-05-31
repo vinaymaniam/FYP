@@ -21,7 +21,7 @@ if length(Xcell) ~= length(Ycell)
 end
 % nvals = [128,256,512,1024,2048,4096,8192,16384];
 n = [16384];
-numneighbours = [3072];
+numneighbours = [96];
 meanpsnrs = zeros(length(numneighbours),1);
 meanssims = zeros(length(numneighbours),1);
 meantimeperpixel = zeros(length(numneighbours),1);
@@ -108,4 +108,4 @@ if plt
 end
 
 
-      
+        

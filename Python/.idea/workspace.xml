@@ -14,8 +14,8 @@
       <file leaf-file-name="full_training.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/full_training.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="18" column="39" lean-forward="false" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
+            <state relative-caret-position="-217">
+              <caret line="15" column="15" lean-forward="false" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
               </folding>
@@ -65,8 +65,8 @@
         <option value="$PROJECT_DIR$/ConvMat2Cell.m" />
         <option value="$PROJECT_DIR$/mapping_calc_pre_crossval.py" />
         <option value="$PROJECT_DIR$/check_cluster_assignment.py" />
-        <option value="$PROJECT_DIR$/full_training.py" />
         <option value="$PROJECT_DIR$/run_kmeans.py" />
+        <option value="$PROJECT_DIR$/full_training.py" />
       </list>
     </option>
   </component>
@@ -621,8 +621,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/full_training.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="18" column="39" lean-forward="false" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
+        <state relative-caret-position="-217">
+          <caret line="15" column="15" lean-forward="false" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
