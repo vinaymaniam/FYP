@@ -1,7 +1,7 @@
-dirx = 'Testing_Images/GT/Set5';
+dirx = 'Testing_Images/GT/Set14';
 pattern = '*.bmp';
 xpath = glob(dirx, pattern);
-newdir = 'Testing_Images/bior44/Set5';
+newdir = 'Testing_Images/bior44/Set14';
 if ~exist(newdir)
     mkdir(newdir);
 end

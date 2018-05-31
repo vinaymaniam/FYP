@@ -34,9 +34,9 @@ def mapping_calculation(dxloc, dyloc, i, clusterszA):
         LR = np.append(LR, np.ones([1,LR.shape[1]]), axis=0)
         LLT = LR.dot(LR.transpose())
         LLT = LLT + lam * np.identity(len(LR))
-        # eigvals = np.linalg.eig(LLT)
-        # if (any(eigvals[0] < lam)):
-        #     LLT = LLT + lam*np.identity(len(LR))
+        eigvals = np.linalg.eig(LLT)
+        if (any(eigvals[0] < lam)):
+            LLT = LLT + lam*np.identity(len(LR))
         # else:
         #     print('All good')
         M = HR.dot(LR.transpose().dot(inv(LLT)))
