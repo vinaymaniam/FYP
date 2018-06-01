@@ -1,42 +1,69 @@
 from run_kmeans import run_kmeans
 # from mapping_calculation import mapping_calculation, mapping_calculationRANSAC
-from mapping_calc_pre_crossval import mapping_calculation, mapping_calculation_quad
-from cent_to_heir import cent_to_heir
+from mapping_calc_pre_crossval import mapping_calculation, mapping_calculation_3by3
+from cent_to_heir import cent_to_heir, cent_to_heir_3by3
 import matlab.engine
 import numpy as np
 
 def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     stage = 1
-    n = 65536
+    n = 16384
     # numneighbors = 96 - 1
     # nn = np.array([12,24,48,96,192,384]) - 1
     # nn = np.array([768,1536,3072]) - 1
     # nn = np.array([49152,196608]) - 1
-    nn = np.array([96]) - 1
+    nn = np.array([192]) - 1
     success = 1
-    for numneighbors in nn :
-        if(stage == 1):
-            dx = 'DX_and_DY/DX_all.mat'
-            dy = 'DX_and_DY/DY_all.mat'
-        elif (stage == 2):
-            dx = 'DX_and_DY/DX_all'+str(n)+'.mat'
-            dy = 'DX_and_DY/DY_all'+str(n)+'.mat'
-        elif (stage >= 3):
-            dx = 'DX_and_DY/DX_all' + str(n) + '_' + str(stage-1) + '.mat'
-            dy = 'DX_and_DY/DY_all' + str(n) + '_' + str(stage-1) + '.mat'
+    mode = 1 # 0:5x5, 1:3x3
+    if(mode == 0):
+        for numneighbors in nn :
+            if(stage == 1):
+                dx = 'DX_and_DY/DX_all.mat'
+                dy = 'DX_and_DY/DY_all.mat'
+            elif (stage == 2):
+                dx = 'DX_and_DY/DX_all'+str(n)+'.mat'
+                dy = 'DX_and_DY/DY_all'+str(n)+'.mat'
+            elif (stage >= 3):
+                dx = 'DX_and_DY/DX_all' + str(n) + '_' + str(stage-1) + '.mat'
+                dy = 'DX_and_DY/DY_all' + str(n) + '_' + str(stage-1) + '.mat'
 
-        if(rkm==1):
+            if(rkm==1):
+                run_kmeans(dx, n)
+                cent_to_heir(n, stage)
+            if(rmc==1):
+                # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
+                # CHANGE: MADE clusterszA inversely proportional to nCtrds
+                # numneighbors = int(np.rint(233013/n))
+                mapping_calculation(dx,dy,n,numneighbors)
+                # mapping_calculationRANSAC(dx, dy, n, 96 - 1)
+            if(rcm2c==1):
+                eng = matlab.engine.start_matlab()
+                success = eng.ConvMat2Cell(n, stage, int(numneighbors+1))
+            print('Finished training model for clusterszA = ' + str(numneighbors))
+    else:
+        numneighbors = int(nn)
+        if (stage == 1):
+            dx = 'DX_and_DY/DX_all3x3.mat'
+            dy = 'DX_and_DY/DY_all3x3.mat'
+        elif (stage == 2):
+            dx = 'DX_and_DY/DX_all3x3' + str(n) + '.mat'
+            dy = 'DX_and_DY/DY_all3x3' + str(n) + '.mat'
+        elif (stage >= 3):
+            dx = 'DX_and_DY/DX_all3x3' + str(n) + '_' + str(stage - 1) + '.mat'
+            dy = 'DX_and_DY/DY_all3x3' + str(n) + '_' + str(stage - 1) + '.mat'
+
+        if (rkm == 1):
             run_kmeans(dx, n)
-            cent_to_heir(n, stage)
-        if(rmc==1):
+            cent_to_heir_3by3(n, stage)
+        if (rmc == 1):
             # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
             # CHANGE: MADE clusterszA inversely proportional to nCtrds
             # numneighbors = int(np.rint(233013/n))
-            mapping_calculation(dx,dy,n,numneighbors)
+            mapping_calculation_3by3(dx, dy, n, numneighbors)
             # mapping_calculationRANSAC(dx, dy, n, 96 - 1)
-        if(rcm2c==1):
+        if (rcm2c == 1):
             eng = matlab.engine.start_matlab()
-            success = eng.ConvMat2Cell(n, stage, int(numneighbors+1))
+            success = eng.ConvMat2Cell3x3(n, stage, int(numneighbors + 1))
         print('Finished training model for clusterszA = ' + str(numneighbors))
     return success
 

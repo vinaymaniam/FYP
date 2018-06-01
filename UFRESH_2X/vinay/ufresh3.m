@@ -1,26 +1,36 @@
 %% Update from ufresh2: multiple patch sizes
-function [ Xrecim ] = ufresh3( X_test,blocksize,heirarchy,index, Map )
+function [ Xrecim ] = ufresh3( X_test,blocksize,heir5x5,index5x5,Map5x5,heir3x3,index3x3,Map3x3)
     
     cropwidth = size(X_test);
     % vectorized patches from testing image X;
     X_test_vec = im2col(X_test,blocksize,'sliding');    
     %% Split X_test_vec into 2 subproblems: 3x3 and 5x5 based on some metric
-    % For now using variance but should probably use something else
-    % Like biggest step between 2 pixels?
+    % For now using variance but should probably use something else more
+    % representative of high frequency detail
     Xvar = var(X_test_vec);
-    colidx = Xvar > 0.02;
+    % plot(Xvar)
+    colidx = Xvar > 0.005;
     Xtest5 = X_test_vec(:,~colidx);
     Xtest3 = X_test_vec(:,colidx);
+    %% Need to im2col on Xtest3
     %======================================================================
-    dc_X = mean(X_test_vec);
-	X_test_vec = X_test_vec - repmat(dc_X, size(X_test_vec, 1), 1);
+    dc_X = mean(Xtest5);
+	Xtest5 = X_test5 - repmat(dc_X, size(Xtest5, 1), 1);
     %% THis line takes the bulk of the time
-    %[heirarchy, index] = heirarchicalKmeans(Center);
-    ind=heirarchicalSearch(X_test_vec,heirarchy);
-    idx = heir2standard(ind, index);
-    %  ------------------------------------
-    Xrecmean = reconstructFromMap(X_test_vec, Map, idx, dc_X);
-    
+    ind=heirarchicalSearch(Xtest5,heir5x5);
+    idx = heir2standard(ind, index5x5);
+    Xrec5 = reconstructFromMap(X_test_vec, Map5x5, idx, dc_X);
+    ind=heirarchicalSearch(Xtest3,heir3x3);
+    idx = heir2standard(ind, index3x3);
+    Xrec3 = reconstructFromMap(X_test_vec, Map3x3, idx, dc_X);
+    Xrecim3 = zeros(size(Xtest5,1),size(Xtest3,2));
+    for i = 1:size(Xtest3,2)
+        patch5x5 = mergepatch(Xrec3,[3,3],[5,5]);
+        Xrecim3(:,i) = im2col(patch5x5,blocksize);
+    end
+    %  ------------------------------------    
+    Xrecmean = zeros(size(X_test_vec));
+    Xrecmean(:,~colidx) = Xrec5;
     Xrecim = mergePatch(Xrecmean, blocksize, cropwidth);      
 end
 
