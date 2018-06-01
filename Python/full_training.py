@@ -7,12 +7,12 @@ import numpy as np
 
 def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     stage = 1
-    n = 16384
+    n = 65536
     # numneighbors = 96 - 1
     # nn = np.array([12,24,48,96,192,384]) - 1
     # nn = np.array([768,1536,3072]) - 1
     # nn = np.array([49152,196608]) - 1
-    nn = np.array([12,48,96]) - 1
+    nn = np.array([96]) - 1
     success = 1
     for numneighbors in nn :
         if(stage == 1):
@@ -40,4 +40,4 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
         print('Finished training model for clusterszA = ' + str(numneighbors))
     return success
 
-runFullTraining(0,1,1)
+runFullTraining(1,1,1)

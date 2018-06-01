@@ -4,9 +4,9 @@ dwtmode('spd')
 addpath('vinay')
 addpath('../Python/data_files')
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
+directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set5'; 
+directory_y = 'Testing_Images/GT/Set14'; 
 
 XpathCell = glob(directory_x, pattern );
 Xcell = load_images( XpathCell );
@@ -20,7 +20,7 @@ if length(Xcell) ~= length(Ycell)
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 % nvals = [128,256,512,1024,2048,4096,8192,16384];
-nvals = [16384];
+nvals = [65536];
 meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
@@ -29,7 +29,7 @@ for n = nvals
     postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
     postssim=zeros(1,length(Xcell)); pressim = zeros(1,length(Xcell));
     tpp = zeros(1,length(Xcell));
-    %% Specify wavelet function    
+    %% Specify wavelet function        
     filt = 'db2'; % db2 gives much better results for FRESH input
     %% Begin SR
     for imgIdx = 1:length(Xcell)
@@ -48,6 +48,7 @@ for n = nvals
             %% Load trained model
             load(sprintf('%ipyHeirarchy%i',stage,n));
             heirarchy = single(heirarchy);   
+            %load(sprintf('%ipyMap%icell192',stage,n));
             load(sprintf('%ipyMap%icell96',stage,n));
             ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
             Xrec = zeros([size(Xtest),ensembleSize]);
