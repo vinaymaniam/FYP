@@ -33,7 +33,7 @@ function [ Xrecim ] = ufresh3( X_test,blocksize,heir5x5,index5x5,Map5x5,heir3x3,
         ind=heirarchicalSearch(Xtest3,heir3x3);
         idx = heir2standard(ind, index3x3);
         Xrec3 = reconstructFromMap(Xtest3, Map3x3, idx, dc_X3);
-        Xrecim3 = zeros(size(Xtest5,1),size(Xtest3,2)/9);
+        Xrecim3 = zeros(size(Xtest5,1),size(Xtest3,2));
         for i = 1:(size(Xtest3,2)/9)
             patch5x5 = mergePatch(Xrec3(:,1+9*(i-1):9+9*(i-1)),[3,3],[5,5]);
             Xrecim3(:,i) = im2col(patch5x5,blocksize);
@@ -42,7 +42,7 @@ function [ Xrecim ] = ufresh3( X_test,blocksize,heir5x5,index5x5,Map5x5,heir3x3,
     %  ------------------------------------    
     Xrecmean = zeros(size(X_test_vec));
     Xrecmean(:,~colidx) = Xrec5;
-    Xrecmean(:,colidx) = Xrecim3;
+    Xrecmean(:,colidx) = Xrec
     Xrecim = mergePatch(Xrecmean, blocksize, cropwidth);      
 end
 
