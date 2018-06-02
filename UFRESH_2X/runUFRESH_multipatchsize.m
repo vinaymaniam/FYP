@@ -57,7 +57,6 @@ for n = nvals
             index3x3 = index;
             load(sprintf('%ipyMap%icell192_3x3',stage,n));
             Map3x3 = Map;
-            toc
             ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
