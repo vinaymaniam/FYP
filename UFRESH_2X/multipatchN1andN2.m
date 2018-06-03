@@ -23,8 +23,8 @@ meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
 %% Load trained models for patch sizes N1xN1 and N2xN2 (N1 > N2)     
-psz1 = 7;
-psz2 = 5;
+psz1 = 8;
+psz2 = 4;
 stage = 1;
 load(sprintf('%ipyHeirarchy%i_%ix%i',stage,nvals,psz1,psz1));
 heirN1 = single(heirarchy); 
@@ -62,9 +62,9 @@ for n = nvals
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
                 X = rot90(Xtest, (rot-1));                        
-                X = ufresh2(X, [psz2,psz2], heirN2, indexN2, MapN2);
+%                 X = ufresh2(X, [psz2,psz2], heirN2, indexN2, MapN2);
 %                 X = ufresh2(X, [psz1,psz1], heirN1, indexN1, MapN1);
-%                 X = ufresh4(X, [psz1,psz1], heirN1, indexN1, MapN1, heirN2, indexN2, MapN2);
+                X = ufresh4(X, [psz1,psz1], heirN1, indexN1, MapN1, heirN2, indexN2, MapN2);
                 X = rot90(X, 4-(rot-1));
                 X = range0toN(X,[0,1]);
                 Xrec(:,:,rot) = X;            

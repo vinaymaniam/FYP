@@ -1,7 +1,8 @@
 %% Update from ufresh2: multiple patch sizes
 % 6x6 and 3x3 <-- 3x3 non overlapping
 function [ Xrecim ] = ufresh4( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,indexN2,MapN2)
-    
+    N1 = sqrt(size(heirN1,2));
+    N2 = sqrt(size(heirN2,2));
     cropwidth = size(X_test);
     % vectorized patches from testing image X;
     X_test_vec = im2col(X_test,blocksize,'sliding');    
@@ -17,13 +18,13 @@ function [ Xrecim ] = ufresh4( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
     %% Need to im2col on Xtest3
     XtN2 = X_test_vec(:,colidx);
     if size(XtN2,2) > 0
-        a  = reshape(XtN2,6,6,[]);
+        a  = reshape(XtN2,N1,N1,[]);
         XtestN2 = [];
         for i = 1:size(a,3)
-            XtestN2(:,1+4*(i-1):4+4*(i-1)) = im2col(a(:,:,i),[3,3],'distinct');
+            XtestN2(:,1+4*(i-1):4+4*(i-1)) = im2col(a(:,:,i),[N2,N2],'distinct');
         end
-        dc_X3 = mean(XtestN2);
-        XtestN2 = XtestN2 - repmat(dc_X3, size(XtestN2, 1), 1);
+        dc_XN2 = mean(XtestN2);
+        XtestN2 = XtestN2 - repmat(dc_XN2, size(XtestN2, 1), 1);
     end
     %======================================================================    
     %% THis line takes the bulk of the time
@@ -33,11 +34,11 @@ function [ Xrecim ] = ufresh4( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
     if size(XtN2,2) > 0
         ind=heirarchicalSearch(XtestN2,heirN2);
         idx = heir2standard(ind, indexN2);
-        XrecN2 = reconstructFromMap(XtestN2, MapN2, idx, dc_X3);
+        XrecN2 = reconstructFromMap(XtestN2, MapN2, idx, dc_XN2);
         XrecimN2 = zeros(size(XtestN1,1),size(XtestN2,2)/4);
         for i = 1:(size(XtestN2,2)/4)           
-            patch6x6 = col2im(XrecN2(:,1+4*(i-1):4+4*(i-1)),[3,3],[6,6],'distinct');
-            XrecimN2(:,i) = reshape(patch6x6,36,1);
+            patchN1xN1 = col2im(XrecN2(:,1+4*(i-1):4+4*(i-1)),[N2,N2],[N1,N1],'distinct');
+            XrecimN2(:,i) = reshape(patchN1xN1,N1*N1,1);
         end
     end
     %  ------------------------------------    
