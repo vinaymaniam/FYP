@@ -7,6 +7,6 @@ function [success] = ConvMat2Cell(n, stage, numneighbours)
     Map = m;
     Map = squeeze(num2cell(Map,[1,2]));
     Res = squeeze(num2cell(Res,2));
-    save(sprintf('data_files/%ipyMap%icell%i_3x3',stage,n,numneighbours),'Map','Res');
+    save(sprintf('data_files/%ipyMap%icell%i_6x6',stage,n,numneighbours),'Map','Res');
     success = 1;
 end

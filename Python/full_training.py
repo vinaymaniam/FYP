@@ -1,7 +1,7 @@
 from run_kmeans import run_kmeans
 # from mapping_calculation import mapping_calculation, mapping_calculationRANSAC
-from mapping_calc_pre_crossval import mapping_calculation, mapping_calculation_3by3, mapping_calculation_6by6
-from cent_to_heir import cent_to_heir, cent_to_heir_3by3, cent_to_heir_6by6
+from mapping_calc_pre_crossval import mapping_calculation, mapping_calculation_3by3, mapping_calculation_NbyN
+from cent_to_heir import cent_to_heir, cent_to_heir_NbyN
 import matlab.engine
 import numpy as np
 
@@ -14,82 +14,52 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     # nn = np.array([49152,196608]) - 1
     nn = np.array([192]) - 1
     success = 1
-    mode = 2 # 0:5x5, 1:3x3, 2:6x6
-    if(mode == 0):
-        for numneighbors in nn :
-            if(stage == 1):
-                dx = 'DX_and_DY/DX_all.mat'
-                dy = 'DX_and_DY/DY_all.mat'
-            elif (stage == 2):
-                dx = 'DX_and_DY/DX_all'+str(n)+'.mat'
-                dy = 'DX_and_DY/DY_all'+str(n)+'.mat'
-            elif (stage >= 3):
-                dx = 'DX_and_DY/DX_all' + str(n) + '_' + str(stage-1) + '.mat'
-                dy = 'DX_and_DY/DY_all' + str(n) + '_' + str(stage-1) + '.mat'
+    mode = 4 # 0:5x5, 3:3x3, 4:4x4 etc
+    for mode in [7,8]:
+        if(mode == 0):
+            for numneighbors in nn :
+                if(stage == 1):
+                    dx = 'DX_and_DY/DX_all.mat'
+                    dy = 'DX_and_DY/DY_all.mat'
+                elif (stage == 2):
+                    dx = 'DX_and_DY/DX_all'+str(n)+'.mat'
+                    dy = 'DX_and_DY/DY_all'+str(n)+'.mat'
+                elif (stage >= 3):
+                    dx = 'DX_and_DY/DX_all' + str(n) + '_' + str(stage-1) + '.mat'
+                    dy = 'DX_and_DY/DY_all' + str(n) + '_' + str(stage-1) + '.mat'
 
-            if(rkm==1):
+                if(rkm==1):
+                    run_kmeans(dx, n)
+                    cent_to_heir(n, stage)
+                if(rmc==1):
+                    # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
+                    # CHANGE: MADE clusterszA inversely proportional to nCtrds
+                    # numneighbors = int(np.rint(233013/n))
+                    mapping_calculation(dx,dy,n,numneighbors)
+                    # mapping_calculationRANSAC(dx, dy, n, 96 - 1)
+                if(rcm2c==1):
+                    eng = matlab.engine.start_matlab()
+                    success = eng.ConvMat2Cell(n, stage, int(numneighbors+1))
+                print('Finished training model for clusterszA = ' + str(numneighbors))
+        else:
+            numneighbors = int(nn)
+            if (stage == 1):
+                dx = 'DX_and_DY/DX_all{}x{}.mat'.format(mode,mode)
+                dy = 'DX_and_DY/DY_all{}x{}.mat'.format(mode,mode)
+
+            if (rkm == 1):
                 run_kmeans(dx, n)
-                cent_to_heir(n, stage)
-            if(rmc==1):
+                cent_to_heir_NbyN(n, stage, mode)
+            if (rmc == 1):
                 # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
                 # CHANGE: MADE clusterszA inversely proportional to nCtrds
                 # numneighbors = int(np.rint(233013/n))
-                mapping_calculation(dx,dy,n,numneighbors)
+                mapping_calculation_NbyN(dx, dy, n, numneighbors,mode)
                 # mapping_calculationRANSAC(dx, dy, n, 96 - 1)
-            if(rcm2c==1):
+            if (rcm2c == 1):
                 eng = matlab.engine.start_matlab()
-                success = eng.ConvMat2Cell(n, stage, int(numneighbors+1))
+                success = eng.ConvMat2CellNxN(n, stage, int(numneighbors + 1), mode)
             print('Finished training model for clusterszA = ' + str(numneighbors))
-    elif (mode == 1):
-        numneighbors = int(nn)
-        if (stage == 1):
-            dx = 'DX_and_DY/DX_all3x3.mat'
-            dy = 'DX_and_DY/DY_all3x3.mat'
-        elif (stage == 2):
-            dx = 'DX_and_DY/DX_all3x3' + str(n) + '.mat'
-            dy = 'DX_and_DY/DY_all3x3' + str(n) + '.mat'
-        elif (stage >= 3):
-            dx = 'DX_and_DY/DX_all3x3' + str(n) + '_' + str(stage - 1) + '.mat'
-            dy = 'DX_and_DY/DY_all3x3' + str(n) + '_' + str(stage - 1) + '.mat'
-
-        if (rkm == 1):
-            run_kmeans(dx, n)
-            cent_to_heir_3by3(n, stage)
-        if (rmc == 1):
-            # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
-            # CHANGE: MADE clusterszA inversely proportional to nCtrds
-            # numneighbors = int(np.rint(233013/n))
-            mapping_calculation_3by3(dx, dy, n, numneighbors)
-            # mapping_calculationRANSAC(dx, dy, n, 96 - 1)
-        if (rcm2c == 1):
-            eng = matlab.engine.start_matlab()
-            success = eng.ConvMat2Cell3x3(n, stage, int(numneighbors + 1))
-        print('Finished training model for clusterszA = ' + str(numneighbors))
-    elif (mode == 2):
-        numneighbors = int(nn)
-        if (stage == 1):
-            dx = 'DX_and_DY/DX_all6x6.mat'
-            dy = 'DX_and_DY/DY_all6x6.mat'
-        elif (stage == 2):
-            dx = 'DX_and_DY/DX_all6x6' + str(n) + '.mat'
-            dy = 'DX_and_DY/DY_all6x6' + str(n) + '.mat'
-        elif (stage >= 3):
-            dx = 'DX_and_DY/DX_all6x6' + str(n) + '_' + str(stage - 1) + '.mat'
-            dy = 'DX_and_DY/DY_all6x6' + str(n) + '_' + str(stage - 1) + '.mat'
-
-        if (rkm == 1):
-            run_kmeans(dx, n)
-            cent_to_heir_6by6(n, stage)
-        if (rmc == 1):
-            # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
-            # CHANGE: MADE clusterszA inversely proportional to nCtrds
-            # numneighbors = int(np.rint(233013/n))
-            mapping_calculation_6by6(dx, dy, n, numneighbors)
-            # mapping_calculationRANSAC(dx, dy, n, 96 - 1)
-        if (rcm2c == 1):
-            eng = matlab.engine.start_matlab()
-            success = eng.ConvMat2Cell6x6(n, stage, int(numneighbors + 1))
-        print('Finished training model for clusterszA = ' + str(numneighbors))
     return success
 
 runFullTraining(1,1,1)

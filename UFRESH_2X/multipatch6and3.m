@@ -14,7 +14,7 @@ YpathCell = glob(directory_y, pattern );
 Ycell = load_images( YpathCell );
 
 
-blocksize = [5, 5]; % the size of patch.
+blocksize = [6, 6]; % the size of patch.
 stepsize = [1, 1];  
 if length(Xcell) ~= length(Ycell)	
 	error('Error: The number of X images is not equal to the number of Y images!');
@@ -47,10 +47,10 @@ for n = nvals
         for stage = 1:1
             %% Load trained model
             tic
-            load(sprintf('%ipyHeirarchy%i',stage,n));
+            load(sprintf('%ipyHeirarchy%i_6x6',stage,n));
             heir6x6 = single(heirarchy); 
             index6x6 = index;
-            load(sprintf('%ipyMap%icell192',stage,n));
+            load(sprintf('%ipyMap%icell192_6x6',stage,n));
             Map6x6 = Map;
             load(sprintf('%ipyHeirarchy%i_3x3',stage,n));
             heir3x3 = single(heirarchy); 
@@ -61,8 +61,8 @@ for n = nvals
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
                 X = rot90(Xtest, (rot-1));                        
-                % X = ufresh2(X, [3,3], heir3x3, index3x3, Map3x3);
-                % X = ufresh2(X, blocksize, heir6x6, index6x6, Map6x6);
+%                 X = ufresh2(X, [3,3], heir3x3, index3x3, Map3x3);
+%                 X = ufresh2(X, blocksize, heir6x6, index6x6, Map6x6);
                 X = ufresh4(X, blocksize, heir6x6, index6x6, Map6x6, heir3x3, index3x3, Map3x3);
                 X = rot90(X, 4-(rot-1));
                 X = range0toN(X,[0,1]);

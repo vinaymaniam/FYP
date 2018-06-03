@@ -11,14 +11,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="full_training.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="full_training.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/full_training.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1449">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="168">
+              <caret line="17" column="22" lean-forward="false" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
+                <element signature="e#691#1931#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cent_to_heir.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cent_to_heir.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-154">
+              <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+              <folding>
+                <element signature="e#154#1097#0" expanded="false" />
+                <element signature="e#2160#3106#0" expanded="false" />
+                <element signature="e#3146#4093#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConvMat2CellNxN.m" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ConvMat2CellNxN.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="8" column="28" lean-forward="false" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -31,45 +56,6 @@
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mapping_calc_pre_crossval.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mapping_calc_pre_crossval.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
-              <folding>
-                <element signature="e#1674#3070#0" expanded="false" />
-                <element signature="e#3130#4528#0" expanded="false" />
-                <element signature="e#4601#5896#0" expanded="false" />
-                <element signature="e#5962#10217#0" expanded="false" />
-                <element signature="e#10285#11519#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cent_to_heir.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cent_to_heir.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="77" column="70" lean-forward="false" selection-start-line="77" selection-start-column="70" selection-end-line="77" selection-end-column="70" />
-              <folding>
-                <element signature="e#154#1097#0" expanded="false" />
-                <element signature="e#1137#2083#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConvMat2Cell6x6.m" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ConvMat2Cell6x6.m">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="7" column="36" lean-forward="false" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -104,10 +90,11 @@
         <option value="$PROJECT_DIR$/check_cluster_assignment.py" />
         <option value="$PROJECT_DIR$/run_kmeans.py" />
         <option value="$PROJECT_DIR$/ConvMat2Cell3x3.m" />
-        <option value="$PROJECT_DIR$/cent_to_heir.py" />
         <option value="$PROJECT_DIR$/ConvMat2Cell6x6.m" />
         <option value="$PROJECT_DIR$/mapping_calc_pre_crossval.py" />
+        <option value="$PROJECT_DIR$/cent_to_heir.py" />
         <option value="$PROJECT_DIR$/full_training.py" />
+        <option value="$PROJECT_DIR$/ConvMat2CellNxN.m" />
       </list>
     </option>
   </component>
@@ -341,7 +328,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="184" />
+      <option name="time" value="185" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -370,7 +357,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backprojection_2X.py" />
     <entry file="file://$PROJECT_DIR$/utils.py" />
     <entry file="file://$PROJECT_DIR$/ufresh.py" />
     <entry file="file://$PROJECT_DIR$/ufresh_helper_functions.py" />
@@ -629,27 +615,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/run_kmeans.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="12" column="20" lean-forward="false" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cent_to_heir.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="77" column="70" lean-forward="false" selection-start-line="77" selection-start-column="70" selection-end-line="77" selection-end-column="70" />
-          <folding>
-            <element signature="e#154#1097#0" expanded="false" />
-            <element signature="e#1137#2083#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ConvMat2Cell3x3.m">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
@@ -660,33 +625,66 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ConvMat2Cell6x6.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="7" column="36" lean-forward="false" selection-start-line="7" selection-start-column="36" selection-end-line="7" selection-end-column="36" />
+        <state relative-caret-position="126">
+          <caret line="6" column="12" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mapping_calc_pre_crossval.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="33" column="59" lean-forward="false" selection-start-line="33" selection-start-column="59" selection-end-line="33" selection-end-column="59" />
+        <state relative-caret-position="552">
+          <caret line="161" column="10" lean-forward="true" selection-start-line="161" selection-start-column="10" selection-end-line="161" selection-end-column="10" />
           <folding>
-            <element signature="e#1674#3070#0" expanded="false" />
-            <element signature="e#3130#4528#0" expanded="false" />
-            <element signature="e#4601#5896#0" expanded="false" />
-            <element signature="e#5962#10217#0" expanded="false" />
-            <element signature="e#10285#11519#0" expanded="false" />
+            <element signature="e#0#18#0" expanded="false" />
+            <element signature="e#1704#3102#0" expanded="false" />
+            <element signature="e#3167#4565#0" expanded="false" />
+            <element signature="e#4630#6026#0" expanded="false" />
+            <element signature="e#6100#7395#0" expanded="false" />
+            <element signature="e#7461#11716#0" expanded="false" />
+            <element signature="e#11784#13018#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run_kmeans.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="12" column="20" lean-forward="false" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/full_training.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1449">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="168">
+          <caret line="17" column="22" lean-forward="false" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
+            <element signature="e#691#1931#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cent_to_heir.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-154">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding>
+            <element signature="e#154#1097#0" expanded="false" />
+            <element signature="e#2160#3106#0" expanded="false" />
+            <element signature="e#3146#4093#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConvMat2CellNxN.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="28" lean-forward="false" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
