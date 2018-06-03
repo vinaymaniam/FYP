@@ -4,9 +4,9 @@ dwtmode('spd')
 addpath('vinay')
 addpath('../Python/data_files')
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
+directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set5'; 
+directory_y = 'Testing_Images/GT/Set14'; 
 
 XpathCell = glob(directory_x, pattern );
 Xcell = load_images( XpathCell );
@@ -61,7 +61,8 @@ for n = nvals
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
                 X = rot90(Xtest, (rot-1));                        
-%                 X = ufresh2(X, blocksize, heirarchy, index, Map);
+                X = ufresh2(X, [3,3], heir3x3, index3x3, Map3x3);
+                % X = ufresh2(X, blocksize, heir5x5, index5x5, Map5x5);
                 X = ufresh3(X, blocksize, heir5x5, index5x5, Map5x5, heir3x3, index3x3, Map3x3);
                 X = rot90(X, 4-(rot-1));
                 X = range0toN(X,[0,1]);

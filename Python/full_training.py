@@ -1,7 +1,7 @@
 from run_kmeans import run_kmeans
 # from mapping_calculation import mapping_calculation, mapping_calculationRANSAC
-from mapping_calc_pre_crossval import mapping_calculation, mapping_calculation_3by3
-from cent_to_heir import cent_to_heir, cent_to_heir_3by3
+from mapping_calc_pre_crossval import mapping_calculation, mapping_calculation_3by3, mapping_calculation_6by6
+from cent_to_heir import cent_to_heir, cent_to_heir_3by3, cent_to_heir_6by6
 import matlab.engine
 import numpy as np
 
@@ -14,7 +14,7 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     # nn = np.array([49152,196608]) - 1
     nn = np.array([192]) - 1
     success = 1
-    mode = 1 # 0:5x5, 1:3x3
+    mode = 2 # 0:5x5, 1:3x3, 2:6x6
     if(mode == 0):
         for numneighbors in nn :
             if(stage == 1):
@@ -40,7 +40,7 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
                 eng = matlab.engine.start_matlab()
                 success = eng.ConvMat2Cell(n, stage, int(numneighbors+1))
             print('Finished training model for clusterszA = ' + str(numneighbors))
-    else:
+    elif (mode == 1):
         numneighbors = int(nn)
         if (stage == 1):
             dx = 'DX_and_DY/DX_all3x3.mat'
@@ -64,6 +64,31 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
         if (rcm2c == 1):
             eng = matlab.engine.start_matlab()
             success = eng.ConvMat2Cell3x3(n, stage, int(numneighbors + 1))
+        print('Finished training model for clusterszA = ' + str(numneighbors))
+    elif (mode == 2):
+        numneighbors = int(nn)
+        if (stage == 1):
+            dx = 'DX_and_DY/DX_all6x6.mat'
+            dy = 'DX_and_DY/DY_all6x6.mat'
+        elif (stage == 2):
+            dx = 'DX_and_DY/DX_all6x6' + str(n) + '.mat'
+            dy = 'DX_and_DY/DY_all6x6' + str(n) + '.mat'
+        elif (stage >= 3):
+            dx = 'DX_and_DY/DX_all6x6' + str(n) + '_' + str(stage - 1) + '.mat'
+            dy = 'DX_and_DY/DY_all6x6' + str(n) + '_' + str(stage - 1) + '.mat'
+
+        if (rkm == 1):
+            run_kmeans(dx, n)
+            cent_to_heir_6by6(n, stage)
+        if (rmc == 1):
+            # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
+            # CHANGE: MADE clusterszA inversely proportional to nCtrds
+            # numneighbors = int(np.rint(233013/n))
+            mapping_calculation_6by6(dx, dy, n, numneighbors)
+            # mapping_calculationRANSAC(dx, dy, n, 96 - 1)
+        if (rcm2c == 1):
+            eng = matlab.engine.start_matlab()
+            success = eng.ConvMat2Cell6x6(n, stage, int(numneighbors + 1))
         print('Finished training model for clusterszA = ' + str(numneighbors))
     return success
 

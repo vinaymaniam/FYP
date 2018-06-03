@@ -8,6 +8,44 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 
+def mapping_calculation_6by6(dxloc, dyloc, i, clusterszA):
+    xdict = scipy.io.loadmat(dxloc)
+    ydict = scipy.io.loadmat(dyloc)
+    X = xdict['X']
+    Y = ydict['Y']
+    # Non mean removed versions for PSNR calculation
+    X1 = xdict['X1']
+    Y1 = ydict['Y1']
+    loadfilename = 'data_files/pyCenter' + str(i) + '.mat'
+    cent = scipy.io.loadmat(loadfilename)
+    Center = cent['Center']
+    cn = len(Center[0])
+    Map = np.ndarray([cn, 36, 37])
+    Res = np.ndarray([cn, 36])
+    lam = 0.0003
+    for t in tqdm(range(0, cn, 1)):
+        c1 = Center[..., t].reshape(1, -1)
+        # This cdist part takes a very long time
+        D = scipy.spatial.distance.cdist(X.transpose(), c1)
+        idx = np.argsort(D, axis=0)
+        LR = np.squeeze(X[..., idx[0:clusterszA]], axis=2)
+        HR = np.squeeze(Y[..., idx[0:clusterszA]], axis=2)
+        # Add in bias term so regression model learns bias
+        LR = np.append(LR, np.ones([1,LR.shape[1]]), axis=0)
+        LLT = LR.dot(LR.transpose())
+        LLT = LLT + lam * np.identity(len(LR))
+        eigvals = np.linalg.eig(LLT)
+        if (any(eigvals[0] < lam)):
+            LLT = LLT + lam*np.identity(len(LR))
+        # else:
+        #     print('All good')
+        M = HR.dot(LR.transpose().dot(inv(LLT)))
+        Map[t, :, :] = M
+    savfilename = 'data_files/pyMap' + str(i) + 'mat' + str(clusterszA + 1) + '.mat'
+    data = {'Map': Map, 'Res': Res}
+    scipy.io.savemat(savfilename, data)
+    return
+
 def mapping_calculation_3by3(dxloc, dyloc, i, clusterszA):
     xdict = scipy.io.loadmat(dxloc)
     ydict = scipy.io.loadmat(dyloc)
