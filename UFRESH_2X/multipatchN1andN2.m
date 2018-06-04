@@ -4,9 +4,9 @@ dwtmode('spd')
 addpath('vinay')
 addpath('../Python/data_files')
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
+directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set5'; 
+directory_y = 'Testing_Images/GT/Set14'; 
 
 XpathCell = glob(directory_x, pattern );
 Xcell = load_images( XpathCell );
@@ -23,8 +23,8 @@ meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
 %% Load trained models for patch sizes N1xN1 and N2xN2 (N1 > N2)     
-psz1 = 6;
-psz2 = 5;
+psz1 = 10;
+psz2 = 6;
 stage = 1;
 load(sprintf('%ipyHeirarchy%i_%ix%i',stage,nvals,psz1,psz1));
 heirN1 = single(heirarchy); 
@@ -71,8 +71,8 @@ for n = nvals
             for rot = 1:ensembleSize
                 X = rot90(Xtest, (rot-1));                        
 %                 X = ufresh2(X, [psz2,psz2], heirN2, indexN2, MapN2);
-%                 X = ufresh2(X, [psz1,psz1], heirN1, indexN1, MapN1);
-                X = ufresh3(X, [psz1,psz1], heirN1, indexN1, MapN1, heirN2, indexN2, MapN2);
+                X = ufresh2(X, [psz1,psz1], heirN1, indexN1, MapN1);
+%                 X = ufresh3(X, [psz1,psz1], heirN1, indexN1, MapN1, heirN2, indexN2, MapN2);
 %                 X = ufresh4(X, [psz1,psz1], heirN1, indexN1, MapN1, heirN2, indexN2, MapN2);                
                 X = rot90(X, 4-(rot-1));
                 X = range0toN(X,[0,1]);

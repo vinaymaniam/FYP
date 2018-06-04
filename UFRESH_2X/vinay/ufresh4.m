@@ -27,6 +27,7 @@ function [ Xrecim ] = ufresh4( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
         XtestN2 = XtestN2 - repmat(dc_XN2, size(XtestN2, 1), 1);
     end
     %======================================================================    
+    Xrecmean = zeros(size(X_test_vec));
     %% THis line takes the bulk of the time
     ind=heirarchicalSearch(XtestN1,heirN1);
     idx = heir2standard(ind, indexN1);
@@ -40,11 +41,10 @@ function [ Xrecim ] = ufresh4( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
             patchN1xN1 = col2im(XrecN2(:,1+4*(i-1):4+4*(i-1)),[N2,N2],[N1,N1],'distinct');
             XrecimN2(:,i) = reshape(patchN1xN1,N1*N1,1);
         end
+        Xrecmean(:,colidx) = XrecimN2;
     end
-    %  ------------------------------------    
-    Xrecmean = zeros(size(X_test_vec));
-    Xrecmean(:,~colidx) = XrecN1;
-    Xrecmean(:,colidx) = XrecimN2;
+    %  ------------------------------------        
+    Xrecmean(:,~colidx) = XrecN1;    
     Xrecim = mergePatch(Xrecmean, blocksize, cropwidth);      
 end
 

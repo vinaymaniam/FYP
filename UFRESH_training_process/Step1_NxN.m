@@ -1,6 +1,6 @@
 clear;
 %% DECLARE N for NxN
-N = 8;
+N = 6;
 
 tic
 % addpath('ksvd');

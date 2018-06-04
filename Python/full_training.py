@@ -15,7 +15,7 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     nn = np.array([192]) - 1
     success = 1
     mode = 4 # 0:5x5, 3:3x3, 4:4x4 etc
-    for mode in [7,8]:
+    for mode in [10]:
         if(mode == 0):
             for numneighbors in nn :
                 if(stage == 1):
