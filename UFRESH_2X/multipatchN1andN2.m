@@ -4,9 +4,9 @@ dwtmode('spd')
 addpath('vinay')
 addpath('../Python/data_files')
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
+directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set14'; 
+directory_y = 'Testing_Images/GT/Set5'; 
 
 XpathCell = glob(directory_x, pattern );
 Xcell = load_images( XpathCell );
@@ -23,19 +23,27 @@ meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
 %% Load trained models for patch sizes N1xN1 and N2xN2 (N1 > N2)     
-psz1 = 8;
-psz2 = 4;
+psz1 = 6;
+psz2 = 5;
 stage = 1;
 load(sprintf('%ipyHeirarchy%i_%ix%i',stage,nvals,psz1,psz1));
 heirN1 = single(heirarchy); 
 indexN1 = index;
 load(sprintf('%ipyMap%icell192_%ix%i',stage,nvals,psz1,psz1));
 MapN1 = Map;
-load(sprintf('%ipyHeirarchy%i_%ix%i',stage,nvals,psz2,psz2));
-heirN2 = single(heirarchy); 
-indexN2 = index;
-load(sprintf('%ipyMap%icell192_%ix%i',stage,nvals,psz2,psz2));
-MapN2 = Map;
+if psz2 == 5
+    load(sprintf('%ipyHeirarchy%i',stage,nvals));
+    heirN2 = single(heirarchy); 
+    indexN2 = index;
+    load(sprintf('%ipyMap%icell192',stage,nvals));
+    MapN2 = Map;
+else
+    load(sprintf('%ipyHeirarchy%i_%ix%i',stage,nvals,psz2,psz2));
+    heirN2 = single(heirarchy); 
+    indexN2 = index;
+    load(sprintf('%ipyMap%icell192_%ix%i',stage,nvals,psz2,psz2));
+    MapN2 = Map;
+end
 for n = nvals
     fprintf('################   %d    #####################\n',n)
     postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));

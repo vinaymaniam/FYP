@@ -13,8 +13,6 @@ Xcell = load_images( XpathCell );
 YpathCell = glob(directory_y, pattern );
 Ycell = load_images( YpathCell );
 
-
-blocksize = [6, 6]; % the size of patch.
 stepsize = [1, 1];  
 if length(Xcell) ~= length(Ycell)	
 	error('Error: The number of X images is not equal to the number of Y images!');
@@ -25,18 +23,27 @@ meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
 %% Load trained models for patch sizes N1xN1 and N2xN2 (N1 > N2)     
-psz1 = 7;
+psz1 = 8;
 psz2 = 5;
-load(sprintf('%ipyHeirarchy%i_%ix%i',stage,n,psz1,psz1));
+stage = 1;
+load(sprintf('%ipyHeirarchy%i_%ix%i',stage,nvals,psz1,psz1));
 heirN1 = single(heirarchy); 
 indexN1 = index;
-load(sprintf('%ipyMap%icell192_%ix%i',stage,n,psz1,psz1));
-Map6x = Map;
-load(sprintf('%ipyHeirarchy%i_%ix%i',stage,n,psz2,psz2));
-heir3x3 = single(heirarchy); 
-index3x3 = index;
-load(sprintf('%ipyMap%icell192_%ix%i',stage,n,psz2,psz2));
-Map3x3 = Map;
+load(sprintf('%ipyMap%icell192_%ix%i',stage,nvals,psz1,psz1));
+MapN1 = Map;
+if psz2 == 5
+    load(sprintf('%ipyHeirarchy%i',stage,nvals));
+    heirN2 = single(heirarchy); 
+    indexN2 = index;
+    load(sprintf('%ipyMap%icell192',stage,nvals));
+    MapN2 = Map;
+else
+    load(sprintf('%ipyHeirarchy%i_%ix%i',stage,nvals,psz2,psz2));
+    heirN2 = single(heirarchy); 
+    indexN2 = index;
+    load(sprintf('%ipyMap%icell192_%ix%i',stage,nvals,psz2,psz2));
+    MapN2 = Map;
+end
 for n = nvals
     fprintf('################   %d    #####################\n',n)
     postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
@@ -63,9 +70,10 @@ for n = nvals
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
                 X = rot90(Xtest, (rot-1));                        
-%                 X = ufresh2(X, [3,3], heir3x3, index3x3, Map3x3);
-%                 X = ufresh2(X, blocksize, heir6x6, index6x6, Map6x6);
-                X = ufresh4(X, blocksize, heirN1, indexN1, Map6x6, heir3x3, index3x3, Map3x3);
+%                 X = ufresh2(X, [psz2,psz2], heirN2, indexN2, MapN2);
+%                 X = ufresh2(X, [psz1,psz1], heirN1, indexN1, MapN1);
+                X = ufresh3(X, [psz1,psz1], heirN1, indexN1, MapN1, heirN2, indexN2, MapN2);
+%                 X = ufresh4(X, [psz1,psz1], heirN1, indexN1, MapN1, heirN2, indexN2, MapN2);                
                 X = rot90(X, 4-(rot-1));
                 X = range0toN(X,[0,1]);
                 Xrec(:,:,rot) = X;            
