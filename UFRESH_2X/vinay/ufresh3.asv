@@ -21,8 +21,9 @@ function [ Xrecim ] = ufresh3( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
         a  = reshape(XtN2,N1,N1,[]);
         XtestN2 = [];
         stride = (N1-N2+1)^2;
-        for i = 1:size(a,3)
-            XtestN2(:,1+stride*(i-1):stride+stride*(i-1)) = im2col(a(:,:,i),[N2,N2],'sliding');
+        for i = 1:stride:size(a,3)
+%             XtestN2(:,1+9*(i-1):9+9*(i-1)) = im2col(a(:,:,i),[3,3],'sliding');
+            XtestN2(:,i:i+stride-1) = im2col(a(:,:,i),[N2,N2],'sliding');
         end
         dc_XN2 = mean(XtestN2);
         XtestN2 = XtestN2 - repmat(dc_XN2, size(XtestN2, 1), 1);
@@ -39,7 +40,7 @@ function [ Xrecim ] = ufresh3( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
         stride = (N1-N2+1)^2;
         XrecimN2 = zeros(size(XtestN1,1),size(XtestN2,2)/stride);
         for i = 1:(size(XtestN2,2)/stride)
-            patchN1 = mergePatch(XrecN2(:,1+stride*(i-1):stride+stride*(i-1)),[N2,N2],[N1,N1]);
+            patchN1 = mergePatch(XrecN2(:,1+stride*(i-1):stride+stride*(i-1)),[3,3],[5,5]);
             XrecimN2(:,i) = im2col(patchN1,blocksize);
         end
     end
