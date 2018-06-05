@@ -18,22 +18,22 @@ function [ Xrecim ] = ufresh3( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
     %% Need to im2col on Xtest3
     XtN2 = X_test_vec(:,colidx);
     if size(XtN2,2) > 0
-%         a  = reshape(XtN2,N1,N1,[]);
-%         XtestN2 = [];
-%         stride = (N1-N2+1)^2;
-%         for i = 1:size(a,3)
-%             XtestN2(:,1+stride*(i-1):stride+stride*(i-1)) = im2col(a(:,:,i),[N2,N2],'sliding');
-%         end
-        a = reshape(XtN2, N1, []);
-        XtestN2 = im2col(a,[N2,N2],'sliding'); % This gives us some cols that we dont want
-        msk = ones(1,size(XtestN2,2));
-        for i = 1:size(XtN2,2)-1
-            for j = 1:N1-N2
-                offset = (j-1)*((size(XtN2)-1)*N1 - 2*N2 + 2);
-                msk(i*N1 - N2 + 2+offset:i*N1+offset) = 0;
-            end
+        a  = reshape(XtN2,N1,N1,[]);
+        XtestN2 = [];
+        stride = (N1-N2+1)^2;
+        for i = 1:size(a,3)
+            XtestN2(:,1+stride*(i-1):stride+stride*(i-1)) = im2col(a(:,:,i),[N2,N2],'sliding');
         end
-        XtestN2 = XtestN2(:,msk);
+%         a = reshape(XtN2, N1, []);
+%         XtestN2 = im2col(a,[N2,N2],'sliding'); % This gives us some cols that we dont want
+%         msk = ones(1,size(XtestN2,2));
+%         for j = 1:N1-N2+1
+%             offset = (j-1)*(size(a,2)-N2+1);
+%             for i = N1:N1:size(a,2)-N1
+%                 msk(i - N2 + 2+offset:i + offset) = 0;
+%             end
+%         end
+% %         XtestN2 = XtestN2(:,logical(msk));
         dc_XN2 = mean(XtestN2);
         XtestN2 = XtestN2 - repmat(dc_XN2, size(XtestN2, 1), 1);
     end
@@ -47,14 +47,13 @@ function [ Xrecim ] = ufresh3( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
         idx = heir2standard(ind, indexN2);
         XrecN2 = reconstructFromMap(XtestN2, MapN2, idx, dc_XN2);
         stride = (N1-N2+1)^2;
-        tmp = mergePatch(XrecN2,[N2,N2],[N1,N1*size(XtestN2,2)/stride]);
-        XrecimN2 = im2col(tmp,[N1,N1]);
-        Xrecmean(:,colidx) = XrecimN2;        
-%         XrecimN2 = zeros(size(XtestN1,1),size(XtestN2,2)/stride);
-%         for i = 1:(size(XtestN2,2)/stride)
-%             patchN1 = mergePatch(XrecN2(:,1+stride*(i-1):stride+stride*(i-1)),[N2,N2],[N1,N1]);
-%             XrecimN2(:,i) = im2col(patchN1,blocksize);
-%         end
+%         tmp = mergePatch(XrecN2,[N2,N2],size(a));
+%         XrecimN2 = reshape(tmp,N1*N1,[]);     
+        XrecimN2 = zeros(size(XtestN1,1),size(XtestN2,2)/stride);
+        for i = 1:(size(XtestN2,2)/stride)
+            patchN1 = mergePatch(XrecN2(:,1+stride*(i-1):stride+stride*(i-1)),[N2,N2],[N1,N1]);
+            XrecimN2(:,i) = im2col(patchN1,blocksize);
+        end
     end
     %  ------------------------------------    
     Xrecmean = zeros(size(X_test_vec));
