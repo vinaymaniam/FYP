@@ -4,14 +4,14 @@ dwtmode('spd')
 addpath('vinay')
 addpath('../Python/data_files')
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
+directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set5'; 
+directory_y = 'Testing_Images/GT/Set14'; 
 
-XpathCell = glob(directory_x, pattern );
-Xcell = load_images( XpathCell );
-YpathCell = glob(directory_y, pattern );
-Ycell = load_images( YpathCell );
+XpathCell = glob(directory_x, pattern);
+Xcell = load_images(XpathCell);
+YpathCell = glob(directory_y, pattern);
+Ycell = load_images(YpathCell);
 
 stepsize = [1, 1];  
 if length(Xcell) ~= length(Ycell)	
