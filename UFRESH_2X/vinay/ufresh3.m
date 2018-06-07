@@ -11,7 +11,7 @@ function [ Xrecim ] = ufresh3( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
     % representative of high frequency detail
     Xvar = var(X_test_vec);
     % plot(Xvar)
-    colidx = Xvar > 0.01;
+    colidx = Xvar > 0.02;
     XtestN1 = X_test_vec(:,~colidx);
     dc_XN1 = mean(XtestN1);
 	XtestN1 = XtestN1 - repmat(dc_XN1, size(XtestN1, 1), 1);   
