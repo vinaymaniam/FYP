@@ -1,0 +1,17 @@
+%% Checks how many centroids are actually in the heirarchy to see how many
+%  slipped through the cracks
+clear;
+stage = 1;
+n = 16384;
+load(sprintf('%ipyHeirarchy%i',stage,n));
+h = single(heirarchy);   
+
+H = zeros(size(h,1)*size(h,3),size(h,2));
+for i = 0:size(h,1)-1
+    H(size(h,3)*i+1:size(h,3)*(i+1),:) = squeeze(h(i+1,:,:))';
+end
+
+
+
+% CONCLUSION- not all centroids are actually stored in here
+% SOLUTION- 

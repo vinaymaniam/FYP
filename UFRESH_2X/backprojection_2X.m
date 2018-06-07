@@ -1,7 +1,8 @@
 function I_bp=backprojection_2X(SR,HR,filter) 
-    % the LL part of the HR image is actually our LR image
-    [c_org,l_org] = wavedec2(HR,1,filter);
-    Ilowc = appcoef2(c_org,l_org,filter,1)./2;
+    % The LR images were originally made by doing bior4.4 decomposition on
+    % HR and taking the LL component
+    [c_org,l_org] = wavedec2(HR,1,'bior4.4');
+    Ilowc = appcoef2(c_org,l_org,'bior4.4',1)./2;
     
     rangeImg=[min(Ilowc(:)) max(Ilowc(:))];
     SR=range0toN(SR,rangeImg);

@@ -1,5 +1,5 @@
 clear;
-dwtmode('spd')
+dwtmode('per')
 
 addpath('vinay')
 addpath('../Python/data_files')
@@ -30,7 +30,7 @@ for n = nvals
     postssim=zeros(1,length(Xcell)); pressim = zeros(1,length(Xcell));
     tpp = zeros(1,length(Xcell));
     %% Specify wavelet function        
-    filt = 'db2'; % db2 gives much better results for FRESH input
+    filt = 'bior4.4'; % db2 gives much better results for FRESH input
     %% Begin SR
     for imgIdx = 1:length(Xcell)
         stopwatch1 = tic;
@@ -54,7 +54,6 @@ for n = nvals
             for rot = 1:ensembleSize
                 X = rot90(Xtest, (rot-1));                        
                 X = ufresh2(X, blocksize, heirarchy, index, Map);
-                % X = ufresh3(X, blocksize, heirarchy, index, Map);
                 X = rot90(X, 4-(rot-1));
                 X = range0toN(X,[0,1]);
                 Xrec(:,:,rot) = X;            

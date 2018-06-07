@@ -1,8 +1,8 @@
 clear;
 
 %% ############  CHECK ME  ####################
-savefilename_X = sprintf('../Python/DX_and_DY/DX_all2048_3.mat');
-savefilename_Y = sprintf('../Python/DX_and_DY/DY_all2048_3.mat');
+savefilename_X = sprintf('../Python/DX_and_DY/DX_all.mat');
+savefilename_Y = sprintf('../Python/DX_and_DY/DY_all.mat');
 
 tic
 addpath('ksvd');
@@ -12,9 +12,10 @@ addpath('ksvd/ompbox');
 addpath('utils');
 addpath('Step2_Kmeans_clustering');
 
+directory_x = 'TrainingData/FRESH_1stage'; %Stage 1
 % directory_x = 'TrainingData/UFRESH2048'; %Stage 2
 % directory_x = 'TrainingData/UFRESH2048_2'; %Stage 3
-directory_x = 'TrainingData/UFRESH2048_3'; %Stage 4
+% directory_x = 'TrainingData/UFRESH2048_3'; %Stage 4
 pattern = '*.bmp';
 directory_y = 'TrainingData/GT'; 
 
@@ -24,6 +25,7 @@ Xcell = load_images( XpathCell );
 YpathCell = glob(directory_y, pattern );
 Ycell = load_images( YpathCell );
 blocksize = [5, 5]; % the size of each image patch.
+% trainnum = 100000;
 trainnum = 20000;
 variance_Thresh = 0.02;
 X = [];
