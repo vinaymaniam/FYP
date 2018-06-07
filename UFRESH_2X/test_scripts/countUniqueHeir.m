@@ -5,7 +5,7 @@ stage = 1;
 
 
 for n = [128,256,512,1024,2048,4096,8192,16384]
-    load(sprintf('%ipyHeirarchy%i',stage,n));
+    load(sprintf('%ipyHeirarchy%i_NF',stage,n));
     h = single(heirarchy);   
     H = zeros(size(h,1)*(size(h,3)-1),size(h,2));
     for i = 0:size(h,1)-1

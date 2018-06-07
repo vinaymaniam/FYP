@@ -1,24 +1,32 @@
 clear;
-dwtmode('spd')
+%% SET STAGE HERE =========================================================
+STAGE = 3;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+dwtmode('per')
 addpath('vinay')
 addpath('../Python/data_files')
 
 nvals = [2048];
-% directory_x = 'TrainingData/FRESH_1stage'; 
-% directory_x = sprintf('TrainingData/UFRESH%d',nvals); 
-directory_x = sprintf('TrainingData/UFRESH%d_2',nvals); 
+switch STAGE
+    case 1
+        directory_x = 'TrainingData/FRESH_1stage'; 
+        destdir = sprintf('TrainingData/UFRESH%d',nvals);
+    case 2
+        directory_x = sprintf('TrainingData/UFRESH%d',nvals); 
+        destdir = sprintf('TrainingData/UFRESH%d_2',nvals);
+    case 3
+        directory_x = sprintf('TrainingData/UFRESH%d_2',nvals); 
+        destdir = sprintf('TrainingData/UFRESH%d_3',nvals);    
+end
 pattern = '*.bmp';
 directory_y = 'TrainingData/GT'; 
-% destdir = sprintf('TrainingData/UFRESH%d',nvals);
-% destdir = sprintf('TrainingData/UFRESH%d_2',nvals);
-destdir = sprintf('TrainingData/UFRESH%d_3',nvals);
 
 n = nvals;
 %% Load trained model
-load(sprintf('3pyHeirarchy%i',n));
+load(sprintf('%ipyHeirarchy%i',STAGE,n));
 heirarchy = single(heirarchy);   
-load(sprintf('3pyMap%icell96',n));  
+load(sprintf('%ipyMap%icell192',STAGE,n));  
 
 
 Xcell = load_images(glob(directory_x, pattern));
@@ -44,7 +52,7 @@ fprintf('################   %d    #####################\n',n)
 postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
 postssim=zeros(1,length(Xcell)); pressim = zeros(1,length(Xcell));
 tpp = zeros(1,length(Xcell));  
-filt = 'db2'; % db2 gives much better results for FRESH input
+filt = 'bior4.4'; % db2 gives much better results for FRESH input
 %% Begin SR
 for imgIdx = 1:length(Xcell)
     stopwatch1 = tic;

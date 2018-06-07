@@ -17,15 +17,15 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     for n in ns :
         if(rkm==1):
             run_kmeans(dx, n)
+            cent_to_heir(n, stage)
         if(rmc==1):
              # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
             # CHANGE: MADE clusterszA inversely proportional to nCtrds
-            numneighbors = 96-1
+            numneighbors = 192-1
             # numneighbors = int(np.rint(233013/n))
             mapping_calculation(dx,dy,n,numneighbors)
             # mapping_calculationRANSAC(dx, dy, n, 96 - 1)
         if(rcm2c==1):
-            cent_to_heir(n, stage)
             eng = matlab.engine.start_matlab()
             success = eng.ConvMat2CellNF(n, stage)
         print('Finished training for n = '+str(n))

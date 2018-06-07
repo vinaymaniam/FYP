@@ -27,7 +27,7 @@ for set = 1:2
         error('Error: The number of X images is not equal to the number of Y images!');
     end
     % nvals = [128,256,512,1024,2048,4096,8192,16384];
-    n = [16384];    
+    n = [8192];    
     for nn = nvals
         fprintf('################   %d    #####################\n',nn)
         postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
@@ -80,9 +80,9 @@ for set = 1:2
         fprintf('Average improvement in PSNR = %.2f\n',mean(postpsnr-prepsnr))
         fprintf('Average improvement in SSIM = %.3f\n',mean(postssim-pressim))
         fprintf('Average Time Per Pixel = %f\n',mean(tpp))
-        meanpsnrs(nvals == n,set) = mean(postpsnr);
-        meanssims(nvals == n,set) = mean(postssim);
-        meantimeperpixel(nvals == n,set) = mean(tpp);    
+        meanpsnrs(nvals == nn,set) = mean(postpsnr);
+        meanssims(nvals == nn,set) = mean(postssim);
+        meantimeperpixel(nvals == nn,set) = mean(tpp);    
     end
 
     plt = 0;

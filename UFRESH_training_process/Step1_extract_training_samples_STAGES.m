@@ -1,8 +1,19 @@
 clear;
-
+stage = 4;
 %% ############  CHECK ME  ####################
-savefilename_X = sprintf('../Python/DX_and_DY/DX_all.mat');
-savefilename_Y = sprintf('../Python/DX_and_DY/DY_all.mat');
+if stage == 1
+    savefilename_X = sprintf('../Python/DX_and_DY/DX_all.mat');
+    savefilename_Y = sprintf('../Python/DX_and_DY/DY_all.mat');
+    directory_x = 'TrainingData/FRESH_1stage'; %Stage 1
+elseif stage == 2
+    savefilename_X = sprintf('../Python/DX_and_DY/DX_all2048.mat');
+    savefilename_Y = sprintf('../Python/DX_and_DY/DY_all2048.mat');
+    directory_x = 'TrainingData/UFRESH2048'; %Stage 2
+elseif stage > 2
+    savefilename_X = sprintf('../Python/DX_and_DY/DX_all2048_%i.mat',stage-1);
+    savefilename_Y = sprintf('../Python/DX_and_DY/DY_all2048_%i.mat',stage-1);
+    directory_x = sprintf('TrainingData/UFRESH2048_%i',stage-1); %Stage 3/4
+end
 
 tic
 addpath('ksvd');
@@ -12,10 +23,7 @@ addpath('ksvd/ompbox');
 addpath('utils');
 addpath('Step2_Kmeans_clustering');
 
-directory_x = 'TrainingData/FRESH_1stage'; %Stage 1
-% directory_x = 'TrainingData/UFRESH2048'; %Stage 2
-% directory_x = 'TrainingData/UFRESH2048_2'; %Stage 3
-% directory_x = 'TrainingData/UFRESH2048_3'; %Stage 4
+
 pattern = '*.bmp';
 directory_y = 'TrainingData/GT'; 
 
