@@ -6,14 +6,19 @@ import matlab.engine
 import numpy as np
 
 def runFullTraining(rkm=1,rmc=1,rcm2c=1):
-    stage = 1
-    n = 128
+    stage = 4
+    # n = 128
     success = 1
 
-    dx = 'DX_and_DY/DX_all_NF.mat'
-    dy = 'DX_and_DY/DY_all_NF.mat'
+    if(stage==1):
+        dx = 'DX_and_DY/DX_all_NF.mat'
+        dy = 'DX_and_DY/DY_all_NF.mat'
+    else:
+        dx = 'DX_and_DY/DX_all_NF'+str(stage)+'.mat'
+        dy = 'DX_and_DY/DY_all_NF'+str(stage)+'.mat'
 
-    ns = [128,256,512,1024,2048,4096,8192,16384]
+    # ns = [128,256,512,1024,2048,4096,8192,16384]
+    ns = [2048]
     for n in ns :
         if(rkm==1):
             run_kmeans(dx, n)

@@ -9,7 +9,8 @@ addpath('utils');
 addpath('Step2_Kmeans_clustering');
 
 % HR downsampled by bior4.4 then bicubically interpolated to HR size
-directory_x = 'TrainingData/bior44'; 
+% directory_x = 'TrainingData/bior44'; 
+directory_x = 'TrainingData/bicubic';
 pattern = '*.bmp';
 directory_y = 'TrainingData/GT'; 
 
