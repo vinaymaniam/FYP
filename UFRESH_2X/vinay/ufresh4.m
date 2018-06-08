@@ -1,6 +1,6 @@
 %% Update from ufresh2: multiple patch sizes
 % 6x6 and 3x3 <-- 3x3 non overlapping
-function [ Xrecim ] = ufresh4( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,indexN2,MapN2)
+function [ Xrecim ] = ufresh4( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,indexN2,MapN2,varTh)
     N1 = sqrt(size(heirN1,2));
     N2 = sqrt(size(heirN2,2));
     cropwidth = size(X_test);
@@ -11,7 +11,7 @@ function [ Xrecim ] = ufresh4( X_test,blocksize,heirN1,indexN1,MapN1,heirN2,inde
     % representative of high frequency detail
     Xvar = var(X_test_vec);
     % plot(Xvar)
-    colidx = Xvar > 0.025;
+    colidx = Xvar > varTh;
     XtestN1 = X_test_vec(:,~colidx);
     dc_XN1 = mean(XtestN1);
 	XtestN1 = XtestN1 - repmat(dc_XN1, size(XtestN1, 1), 1);   
