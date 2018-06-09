@@ -53,13 +53,13 @@ for n = nvals
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
                 X = rot90(Xtest, (rot-1));                        
-                X = ufresh2(X, blocksize, heirarchy, index, Map);
+%                 X = ufresh2(X, blocksize, heirarchy, index, Map);
                 X = rot90(X, 4-(rot-1));
                 X = range0toN(X,[0,1]);
                 Xrec(:,:,rot) = X;            
             end        
             Xtest = mean(Xrec,3);
-            Xtest = backprojection_2X(Xtest, Ytest, filt); 
+%             Xtest = backprojection_2X(Xtest, Ytest, filt); 
             % Clip image to 0-1 range
             Xtest = range0toN(Xtest,[0,1]);
         end

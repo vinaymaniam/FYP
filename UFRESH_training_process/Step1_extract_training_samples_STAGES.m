@@ -1,5 +1,5 @@
 clear;
-stage = 4;
+stage = 3;
 %% ############  CHECK ME  ####################
 if stage == 1
     savefilename_X = sprintf('../Python/DX_and_DY/DX_all.mat');

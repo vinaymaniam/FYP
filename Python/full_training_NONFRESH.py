@@ -18,7 +18,7 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
         dy = 'DX_and_DY/DY_all_NF'+str(stage)+'.mat'
 
     # ns = [128,256,512,1024,2048,4096,8192,16384]
-    ns = [2048]
+    ns = [16384]
     for n in ns :
         if(rkm==1):
             run_kmeans(dx, n)

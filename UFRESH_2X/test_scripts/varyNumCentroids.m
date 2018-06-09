@@ -33,6 +33,10 @@ for set = 1:2
         tpp = zeros(1,length(Xcell));
         %% Specify wavelet function        
         filt = 'bior4.4';
+        %% Load trained model
+        load(sprintf('%ipyHeirarchy%i',1,n));
+        heirarchy = single(heirarchy);   
+        load(sprintf('%ipyMap%icell192',1,n));
         %% Begin SR
         for imgIdx = 1:length(Xcell)
             stopwatch1 = tic;
@@ -46,11 +50,7 @@ for set = 1:2
             pressim(imgIdx) = ssim(Xtest,Ytest);    
             %% NEXT STEP - IMPLEMENT RESIDUAL LEARNING(FROM FRESH) IN V2
             %% NEED TO FIGURE OUT A WAY TO USE Res IN pyMapCell TO DO SOME SORT OF ERROR CORRECTION
-            for stage = 1:1
-                %% Load trained model
-                load(sprintf('%ipyHeirarchy%i',stage,n));
-                heirarchy = single(heirarchy);   
-                load(sprintf('%ipyMap%icell192',stage,n));
+            for stage = 1:1                
                 ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
                 Xrec = zeros([size(Xtest),ensembleSize]);
                 for rot = 1:ensembleSize

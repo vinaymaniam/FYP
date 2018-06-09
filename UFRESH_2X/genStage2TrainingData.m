@@ -1,23 +1,23 @@
 clear;
 %% SET STAGE HERE =========================================================
-STAGE = 3;
+STAGE = 2;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 dwtmode('per')
 addpath('vinay')
 addpath('../Python/data_files')
 
-nvals = [2048];
+nvals = [8192];
 switch STAGE
     case 1
         directory_x = 'TrainingData/FRESH_1stage'; 
-        destdir = sprintf('TrainingData/UFRESH%d',nvals);
+        destdir = sprintf('TrainingData/UFRESH2048');
     case 2
-        directory_x = sprintf('TrainingData/UFRESH%d',nvals); 
-        destdir = sprintf('TrainingData/UFRESH%d_2',nvals);
+        directory_x = sprintf('TrainingData/UFRESH2048'); 
+        destdir = sprintf('TrainingData/UFRESH2048_2');
     case 3
-        directory_x = sprintf('TrainingData/UFRESH%d_2',nvals); 
-        destdir = sprintf('TrainingData/UFRESH%d_3',nvals);    
+        directory_x = sprintf('TrainingData/UFRESH2048_2'); 
+        destdir = sprintf('TrainingData/UFRESH2048_3');    
 end
 pattern = '*.bmp';
 directory_y = 'TrainingData/GT'; 

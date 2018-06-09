@@ -6,7 +6,7 @@ import matlab.engine
 import numpy as np
 
 def runFullTraining(rkm=1,rmc=1,rcm2c=1):
-    stage = 1
+    stage = 3
     # n = 16384
     # numneighbors = 96 - 1
     # nn = np.array([12,48,96,192,384,768,3072]) - 1
@@ -14,7 +14,7 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     success = 1
     # mode = 0 # 0:5x5, 3:3x3, 4:4x4 etc
     # for n in [128,256,512,1024,2048,4096,8192,16384]:
-    for mode in [6]:
+    for mode in [0]:
         for n in [8192]:
             if(mode == 0):
                 for numneighbors in nn :
@@ -22,11 +22,11 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
                         dx = 'DX_and_DY/DX_all.mat'
                         dy = 'DX_and_DY/DY_all.mat'
                     elif (stage == 2):
-                        dx = 'DX_and_DY/DX_all'+str(n)+'.mat'
-                        dy = 'DX_and_DY/DY_all'+str(n)+'.mat'
+                        dx = 'DX_and_DY/DX_all2048.mat'
+                        dy = 'DX_and_DY/DY_all2048.mat'
                     elif (stage >= 3):
-                        dx = 'DX_and_DY/DX_all' + str(n) + '_' + str(stage-1) + '.mat'
-                        dy = 'DX_and_DY/DY_all' + str(n) + '_' + str(stage-1) + '.mat'
+                        dx = 'DX_and_DY/DX_all2048_' + str(stage-1) + '.mat'
+                        dy = 'DX_and_DY/DY_all2048_' + str(stage-1) + '.mat'
 
                     if(rkm==1):
                         run_kmeans(dx, n)

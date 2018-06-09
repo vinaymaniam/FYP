@@ -5,8 +5,8 @@ addpath('vinay')
 addpath('../Python_alt/data_files')
 
 %% Metric being tested here
-nvals = [128,256,512,1024,2048,4096,8192,16384];
-% nvals = 8192;
+% nvals = [128,256,512,1024,2048,4096,8192,16384];
+nvals = 8192;
 % ---------------------------------------------------------------------------
 meanpsnrs = zeros(length(nvals),2);
 meanssims = zeros(length(nvals),2);

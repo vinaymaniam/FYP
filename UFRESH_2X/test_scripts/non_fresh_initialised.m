@@ -5,8 +5,8 @@ addpath('vinay')
 addpath('../Python/data_files')
 
 %% Metric being tested here
-nvals = [128,256,512,1024,2048,4096,8192,16384];
-% nvals = 8192;
+% nvals = [128,256,512,1024,2048,4096,8192,16384];
+nvals = 8192;
 % ---------------------------------------------------------------------------
 meanpsnrs = zeros(length(nvals),2);
 meanssims = zeros(length(nvals),2);
@@ -17,7 +17,9 @@ for set = 1:2
     YpathCell = glob(directory_y, pattern );
     Ycell = load_images( YpathCell );
     for i = 1:length(Ycell)
+        tbic = tic;
         Xcell{i} = imresize(imresize(Ycell{i},0.5),2);
+        toc(tbic)/numel(Xcell{i})
     end
 
 

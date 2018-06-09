@@ -31,6 +31,7 @@ Ycell = load_images( YpathCell );
 blocksize = [5, 5]; % the size of each image patch.
 % trainnum = 100000;
 trainnum = 20000;
+% trainnum = 100000;
 variance_Thresh = 0.02;
 X = [];
 Y = [];

@@ -6,12 +6,11 @@ addpath('ksvd/ompbox');
 addpath('utils');
 addpath('Step2_Kmeans_clustering');
 
-
-dirx = 'TrainingData/GT';
+dirx = 'TrainingData/L20';
 pattern = '*.bmp';
 xpath = glob(dirx, pattern);
 
-newdir = 'TrainingData/bicubic';
+newdir = 'TrainingData/L20_0';
 if ~exist(newdir)
     mkdir(newdir);
 end
@@ -22,8 +21,28 @@ for i = 1:length(xpath)
     fprintf('%.0f\n',psnr(x,y));
     name = split(xpath{i},'\');
     name = name{end}; 
+    name = split(name,'.');
+    name = sprintf('%s.bmp',name{1});
     imwrite(im2uint8(y),sprintf('%s/%s', newdir, name));
 end
+
+% dirx = 'TrainingData/GT';
+% pattern = '*.bmp';
+% xpath = glob(dirx, pattern);
+% 
+% newdir = 'TrainingData/bicubic';
+% if ~exist(newdir)
+%     mkdir(newdir);
+% end
+% sf = 2;
+% for i = 1:length(xpath)    
+%     x = im2double(imread(xpath{i})); 
+%     y = imresize(imresize(x,0.5),size(x));
+%     fprintf('%.0f\n',psnr(x,y));
+%     name = split(xpath{i},'\');
+%     name = name{end}; 
+%     imwrite(im2uint8(y),sprintf('%s/%s', newdir, name));
+% end
 
 % newdir = 'TrainingData/bior44';
 % if ~exist(newdir)

@@ -7,7 +7,7 @@ dwtmode('per')
 addpath('vinay')
 addpath('../Python/data_files')
 
-nvals = [2048];
+nvals = [16384];
 
 directory_x = sprintf('TrainingData/NF_%i',stage-1);
 destdir = sprintf('TrainingData/NF_%i',stage);

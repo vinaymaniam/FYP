@@ -11,11 +11,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="full_training_NONFRESH.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/full_training_NONFRESH.py">
+      <file leaf-file-name="full_training.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/full_training.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="16" column="26" lean-forward="false" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+            <state relative-caret-position="357">
+              <caret line="22" column="51" lean-forward="true" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cent_to_heir_NF.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cent_to_heir_NF.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="504">
+              <caret line="29" column="70" lean-forward="false" selection-start-line="29" selection-start-column="70" selection-end-line="29" selection-end-column="70" />
+              <folding>
+                <element signature="e#1139#2085#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConvMat2CellL20.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ConvMat2CellL20.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="147">
+              <caret line="7" column="30" lean-forward="false" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -44,7 +66,6 @@
         <option value="$PROJECT_DIR$/mapping_calculationRANSAC.py" />
         <option value="$PROJECT_DIR$/plot_test.py" />
         <option value="$PROJECT_DIR$/mapping_calculation.py" />
-        <option value="$PROJECT_DIR$/cent_to_heir_NF.py" />
         <option value="$PROJECT_DIR$/ConvMat2Cell.m" />
         <option value="$PROJECT_DIR$/check_cluster_assignment.py" />
         <option value="$PROJECT_DIR$/run_kmeans.py" />
@@ -54,8 +75,11 @@
         <option value="$PROJECT_DIR$/ConvMat2CellNxN.m" />
         <option value="$PROJECT_DIR$/cent_to_heir.py" />
         <option value="$PROJECT_DIR$/ConvMat2CellNF.m" />
-        <option value="$PROJECT_DIR$/full_training.py" />
+        <option value="$PROJECT_DIR$/ConvMat2CellL20.m" />
+        <option value="$PROJECT_DIR$/cent_to_heir_NF.py" />
+        <option value="$PROJECT_DIR$/full_training_L20.py" />
         <option value="$PROJECT_DIR$/full_training_NONFRESH.py" />
+        <option value="$PROJECT_DIR$/full_training.py" />
       </list>
     </option>
   </component>
@@ -112,7 +136,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.full_training_NONFRESH">
+  <component name="RunManager" selected="Python.full_training">
     <configuration name="check_cluster_assignment" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -144,6 +168,24 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Python" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/full_training.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="full_training_L20" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Python" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/full_training_L20.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -185,38 +227,20 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="profiler" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Python" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/profiler.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.profiler" />
-      <item index="1" class="java.lang.String" itemvalue="Python.full_training" />
-      <item index="2" class="java.lang.String" itemvalue="Python.plot_test" />
-      <item index="3" class="java.lang.String" itemvalue="Python.full_training_NONFRESH" />
-      <item index="4" class="java.lang.String" itemvalue="Python.check_cluster_assignment" />
+      <item index="0" class="java.lang.String" itemvalue="Python.full_training" />
+      <item index="1" class="java.lang.String" itemvalue="Python.plot_test" />
+      <item index="2" class="java.lang.String" itemvalue="Python.full_training_NONFRESH" />
+      <item index="3" class="java.lang.String" itemvalue="Python.check_cluster_assignment" />
+      <item index="4" class="java.lang.String" itemvalue="Python.full_training_L20" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.full_training_NONFRESH" />
-        <item index="1" class="java.lang.String" itemvalue="Python.full_training" />
-        <item index="2" class="java.lang.String" itemvalue="Python.check_cluster_assignment" />
-        <item index="3" class="java.lang.String" itemvalue="Python.plot_test" />
-        <item index="4" class="java.lang.String" itemvalue="Python.profiler" />
+        <item index="0" class="java.lang.String" itemvalue="Python.full_training" />
+        <item index="1" class="java.lang.String" itemvalue="Python.full_training_NONFRESH" />
+        <item index="2" class="java.lang.String" itemvalue="Python.full_training_L20" />
+        <item index="3" class="java.lang.String" itemvalue="Python.check_cluster_assignment" />
+        <item index="4" class="java.lang.String" itemvalue="Python.plot_test" />
       </list>
     </recent_temporary>
   </component>
@@ -247,12 +271,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17821258" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36953956" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36953956" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -319,8 +342,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/utils.py" />
-    <entry file="file://$PROJECT_DIR$/ufresh.py" />
     <entry file="file://$PROJECT_DIR$/ufresh_helper_functions.py" />
     <entry file="file://$PROJECT_DIR$/mapping_calculation.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -549,38 +570,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ConvMat2CellNF.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="45" lean-forward="false" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cent_to_heir_NF.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/full_training.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="45" column="32" lean-forward="true" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mapping_calc_pre_crossval.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="24" column="16" lean-forward="false" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cent_to_heir.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14">
-          <caret line="21" column="39" lean-forward="false" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+          <folding>
+            <element signature="e#1704#3102#0" expanded="false" />
+            <element signature="e#3167#4565#0" expanded="false" />
+            <element signature="e#4630#6026#0" expanded="false" />
+            <element signature="e#6100#7395#0" expanded="false" />
+            <element signature="e#7461#11716#0" expanded="false" />
+            <element signature="e#11784#13018#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -598,10 +599,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ConvMat2CellNF.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="7" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="12" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cent_to_heir.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="21" column="39" lean-forward="false" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+          <folding>
+            <element signature="e#1147#2121#0" expanded="false" />
+            <element signature="e#2126#2161#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cent_to_heir_NF.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="29" column="70" lean-forward="false" selection-start-line="29" selection-start-column="70" selection-end-line="29" selection-end-column="70" />
+          <folding>
+            <element signature="e#1139#2085#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConvMat2CellL20.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="7" column="30" lean-forward="false" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/full_training_L20.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="15" column="9" lean-forward="true" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#33#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/full_training_NONFRESH.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="16" column="26" lean-forward="false" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
+        <state relative-caret-position="63">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/full_training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="22" column="51" lean-forward="true" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
           <folding />
         </state>
       </provider>
