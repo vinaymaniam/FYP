@@ -52,14 +52,14 @@ for n = nvals
             ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
-                X = rot90(Xtest, (rot-1));                        
-%                 X = ufresh2(X, blocksize, heirarchy, index, Map);
-                X = rot90(X, 4-(rot-1));
+                X = affine(Xtest,abs(mod(rot-1,4)),rot-4,0);
+                X = ufresh2(X, blocksize, heirarchy, index, Map);
+                X = affine(X,abs(mod(rot-1,4)),rot-4,1);
                 X = range0toN(X,[0,1]);
-                Xrec(:,:,rot) = X;            
+                Xrec(:,:,rot) = X;   
             end        
             Xtest = mean(Xrec,3);
-%             Xtest = backprojection_2X(Xtest, Ytest, filt); 
+            Xtest = backprojection_2X(Xtest, Ytest, filt); 
             % Clip image to 0-1 range
             Xtest = range0toN(Xtest,[0,1]);
         end

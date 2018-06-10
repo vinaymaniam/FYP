@@ -5,7 +5,8 @@ addpath('vinay')
 addpath('../Python/data_files')
 
 %% Metric being tested here
-nvals = [128,256,512,1024,2048,4096,8192,16384];
+% nvals = [128,256,512,1024,2048,4096,8192,16384];
+nvals = 8192;
 % ---------------------------------------------------------------------------
 meanpsnrs = zeros(length(nvals),2);
 meanssims = zeros(length(nvals),2);
@@ -54,11 +55,16 @@ for set = 1:2
                 ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
                 Xrec = zeros([size(Xtest),ensembleSize]);
                 for rot = 1:ensembleSize
-                    X = rot90(Xtest, (rot-1));                        
+%                     X = rot90(Xtest, (rot-1));                        
+%                     X = ufresh2(X, blocksize, heirarchy, index, Map);
+%                     X = rot90(X, 4-(rot-1));
+%                     X = range0toN(X,[0,1]);
+%                     Xrec(:,:,rot) = X;   
+                    X = affine(Xtest,abs(mod(rot-1,4)),rot-4,0);
                     X = ufresh2(X, blocksize, heirarchy, index, Map);
-                    X = rot90(X, 4-(rot-1));
+                    X = affine(X,abs(mod(rot-1,4)),rot-4,1);
                     X = range0toN(X,[0,1]);
-                    Xrec(:,:,rot) = X;            
+                    Xrec(:,:,rot) = X;   
                 end        
                 Xtest = mean(Xrec,3);
                 Xtest = backprojection_2X(Xtest, Ytest, filt); 
