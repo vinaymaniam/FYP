@@ -20,18 +20,7 @@ for set = 1:2
         tbic = tic;
         y = Ycell{i};
         x1 = imresize(imresize(y,0.5),2);
-%         x = iterativeBackproj(imresize(y,0.5));
-%         figure;
-%         subplot(1,3,1)
-%         imshow(x1)
-%         subplot(1,3,2)
-%         imshow(x)
-%         subplot(1,3,3)
-%         imshow(y)
-%         psnr(x1,y)
-%         psnr(x,y)        
         Xcell{i} = x1;
-%         toc(tbic)/numel(Xcell{i})
     end
 
 
@@ -73,11 +62,14 @@ for set = 1:2
                     X = range0toN(X,[0,1]);
                     Xrec(:,:,rot) = X;            
                 end        
-                Xtest = mean(Xrec,3);
+                Xtest = mean(Xrec,3);                              
                 % Clip image to 0-1 range
-                Xtest = range0toN(Xtest,[0,1]);
+                Xtest = range0toN(Xtest,[0,1]);                
             end
-            fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));         
+            x = iterativeBackproj(Xtest);   
+            x = x(1:2:end,1:2:end);             
+%             fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));         
+            fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(x,Ytest),ssim(x,Ytest));         
             postpsnr(imgIdx)=psnr(Xtest,Ytest); 
             postssim(imgIdx)=ssim(Xtest,Ytest); 
             toc(stopwatch1)

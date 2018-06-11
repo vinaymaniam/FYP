@@ -1,8 +1,8 @@
 function [ lhs rhs ] = SREquations(images, offsets, blurSigma)
     lhs = [];
     rhs = [];
-%     superSize = 2 * size(images{1}) + [ 1 1 ];
-    superSize = 2 * size(images{1});
+    superSize = 2 * size(images{1}) + [ 1 1 ];
+%     superSize = 2 * size(images{1});
     for i = 1 : numel(images)
         transMat = TransMat(superSize, offsets(i, :));
         blurMat = BlurMat(superSize, blurSigma);
@@ -66,8 +66,8 @@ end
 
 % Creates a decimation operator.
 function decMat = DecMat(superSize)
-%     sampledSize = 0.5 * (superSize - 1);
-    sampledSize = 0.5 * (superSize);
+    sampledSize = 0.5 * (superSize - 1);
+%     sampledSize = 0.5 * (superSize);
     [ outputRow outputCol ] = meshgrid(1 : sampledSize(1), 1 : sampledSize(2));
     inputRow = 2 * outputRow;
     inputCol = 2 * outputCol;
