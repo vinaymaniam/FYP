@@ -20,7 +20,7 @@ if length(Xcell) ~= length(Ycell)
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 % nvals = [128,256,512,1024,2048,4096,8192,16384];
-nvals = [16384];
+nvals = [8192];
 meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
@@ -62,10 +62,11 @@ for n = nvals
             Xtest = backprojection_2X(Xtest, Ytest, filt); 
             % Clip image to 0-1 range
             Xtest = range0toN(Xtest,[0,1]);
-        end
-        fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', psnr(Xtest,Ytest),ssim(Xtest,Ytest));
-        postpsnr(imgIdx)=psnr(Xtest,Ytest); 
-        postssim(imgIdx)=ssim(Xtest,Ytest); 
+        end        
+%         postpsnr(imgIdx)=psnr(Xtest,Ytest); 
+        postpsnr(imgIdx)=psnr(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
+        postssim(imgIdx)=ssim(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
+        fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', postpsnr(imgIdx),postssim(imgIdx));
         toc(stopwatch1)
         tpp(imgIdx) = toc(stopwatch1)/numel(Ytest);
 %         visualiseImprovement(Xcell{imgIdx}, Xtest, Ytest)

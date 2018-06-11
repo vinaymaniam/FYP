@@ -19,8 +19,15 @@ for set = 1:2
     for i = 1:length(Ycell)
         tbic = tic;
         y = Ycell{i};
-        Xcell{i} = y(1:2:end,1:2:end);
-%         Xcell{i} = imresize(imresize(y,0.5),2);
+        x1 = imresize(imresize(y,0.5),2);
+        x = iterativeBackproj(x1);
+        mask = ones(size(y)) - [zeros(3,size(y,2));...
+            [zeros(size(y,1)-5,3),ones(size(y,1)-5,size(y,2)-5),zeros(size(y,1)-5,2)];...
+            zeros(2,size(y,2))];
+        mask = logical(mask);
+        x(mask) = x1(mask);
+        psnr(x,y)
+        Xcell{i} = x;
         toc(tbic)/numel(Xcell{i});
     end
 
@@ -64,9 +71,6 @@ for set = 1:2
                     Xrec(:,:,rot) = X;            
                 end        
                 Xtest = mean(Xrec,3);
-                LR = imresize(Ytest,0.5);
-%                 Xtest = backproj(Xtest,LR);
-%                 Xtest = backprojection(Xtest, imresize(Ytest,0.5), 'rbio4.4'); 
                 % Clip image to 0-1 range
                 Xtest = range0toN(Xtest,[0,1]);
             end
