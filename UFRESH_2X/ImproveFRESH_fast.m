@@ -4,9 +4,9 @@ dwtmode('per')
 addpath('vinay')
 addpath('../Python/data_files')
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
+directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set5'; 
+directory_y = 'Testing_Images/GT/Set14'; 
 
 XpathCell = glob(directory_x, pattern );
 Xcell = load_images( XpathCell );
@@ -24,6 +24,10 @@ nvals = [8192];
 meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
+% load('newheir16384');
+load('1pyMap8192cell192');
+load(sprintf('%ipyHeirarchy%i',1,nvals));
+heirarchy = single(heirarchy);   
 for n = nvals
     fprintf('################   %d    #####################\n',n)
     postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
@@ -46,9 +50,8 @@ for n = nvals
         %% NEED TO FIGURE OUT A WAY TO USE Res IN pyMapCell TO DO SOME SORT OF ERROR CORRECTION
         for stage = 1:1
             %% Load trained model
-            load(sprintf('%ipyHeirarchy%i',stage,n));
-            heirarchy = single(heirarchy);   
-            load(sprintf('%ipyMap%icell192',stage,n));
+%             load(sprintf('%ipyHeirarchy%i',stage,n));
+%             heirarchy = single(heirarchy);               
             ensembleSize = 4; % low ensemble size --> not too big of a drop in quality
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
@@ -63,8 +66,8 @@ for n = nvals
             % Clip image to 0-1 range
             Xtest = range0toN(Xtest,[0,1]);
         end        
-%         postpsnr(imgIdx)=psnr(Xtest,Ytest); 
-        postpsnr(imgIdx)=psnr(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
+        postpsnr(imgIdx)=psnr(Xtest,Ytest); 
+%         postpsnr(imgIdx)=psnr(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
         postssim(imgIdx)=ssim(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
         fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', postpsnr(imgIdx),postssim(imgIdx));
         toc(stopwatch1)

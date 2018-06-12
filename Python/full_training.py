@@ -6,7 +6,7 @@ import matlab.engine
 import numpy as np
 
 def runFullTraining(rkm=1,rmc=1,rcm2c=1):
-    stage = 3
+    stage = 1
     # n = 16384
     # numneighbors = 96 - 1
     # nn = np.array([12,48,96,192,384,768,3072]) - 1
@@ -15,7 +15,7 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
     # mode = 0 # 0:5x5, 3:3x3, 4:4x4 etc
     # for n in [128,256,512,1024,2048,4096,8192,16384]:
     for mode in [0]:
-        for n in [8192]:
+        for n in [16384]:
             if(mode == 0):
                 for numneighbors in nn :
                     if(stage == 1):
