@@ -12,7 +12,7 @@ def cent_to_heir(sz, stage):
     Center = cent['Center'].transpose()
     nctrds = int(round(np.sqrt(len(Center))+0.5))
 
-    kmeans = MiniBatchKMeans(n_clusters=nctrds, init='k-means++', init_size=2 * nctrds, max_iter=500, verbose=False).fit(
+    kmeans = MiniBatchKMeans(n_clusters=nctrds, init='k-means++', batch_size=min(10000,nctrds-10), max_iter=500, verbose=False).fit(
         Center)
     C = kmeans.cluster_centers_
 

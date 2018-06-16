@@ -4,9 +4,9 @@ dwtmode('per')
 addpath('vinay')
 addpath('../Python/data_files')
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
+directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set14'; 
+directory_y = 'Testing_Images/GT/Set5'; 
 
 XpathCell = glob(directory_x, pattern );
 Xcell = load_images( XpathCell );
@@ -20,12 +20,14 @@ if length(Xcell) ~= length(Ycell)
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 % nvals = [128,256,512,1024,2048,4096,8192,16384];
-nvals = [16384];
+nvals = [4];
 meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
-load('newheir16384');
-load('1pyMap16384cell192');
+% load('newheir16384');
+load(sprintf('%ipyMap%icell192',1,nvals));
+load(sprintf('%ipyHeirarchy%i',1,nvals));
+heirarchy = single(heirarchy);   
 for n = nvals
     fprintf('################   %d    #####################\n',n)
     postpsnr=zeros(1,length(Xcell)); prepsnr = zeros(1,length(Xcell));
@@ -54,7 +56,7 @@ for n = nvals
             Xrec = zeros([size(Xtest),ensembleSize]);
             for rot = 1:ensembleSize
                 X = affine(Xtest,abs(mod(rot-1,4)),rot-4,0);
-                X = ufresh2_2(X, blocksize, heirarchy, index, Map);
+                X = ufresh2(X, blocksize, heirarchy, index, Map);
                 X = affine(X,abs(mod(rot-1,4)),rot-4,1);
                 X = range0toN(X,[0,1]);
                 Xrec(:,:,rot) = X;   
@@ -64,8 +66,8 @@ for n = nvals
             % Clip image to 0-1 range
             Xtest = range0toN(Xtest,[0,1]);
         end        
-        postpsnr(imgIdx)=psnr(Xtest,Ytest); 
-%         postpsnr(imgIdx)=psnr(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
+%         postpsnr(imgIdx)=psnr(Xtest,Ytest); 
+        postpsnr(imgIdx)=psnr(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
         postssim(imgIdx)=ssim(Xtest(3:end-2,3:end-2),Ytest(3:end-2,3:end-2)); 
         fprintf('[AFTER]  PSNR = %.1f     SSIM = %.3f\n', postpsnr(imgIdx),postssim(imgIdx));
         toc(stopwatch1)

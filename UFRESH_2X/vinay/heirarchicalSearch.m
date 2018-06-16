@@ -10,6 +10,7 @@ function [ idx ] = heirarchicalSearch( X,heirarchy )
     CC = single(sum(heirarchy(:,:,1).^2, 2)');
     XC = single(X * heirarchy(:,:,1)');
     dists = (bsxfun(@minus, CC, 2*XC));
+%     dists = pdist2(X,heirarchy(:,:,1),'squaredeuclidean');
     [~,idx(:,1)] = min(dists,[],2);
     for i = 1:size(heirarchy,1)
         indices = find(idx(:,1)==i);
@@ -18,6 +19,7 @@ function [ idx ] = heirarchicalSearch( X,heirarchy )
             CC = sum(heir.^2, 2)';        
             XC = X(indices,:) * heir';
             dists = bsxfun(@minus, CC, 2*XC);
+%             dists = pdist2(X(indices,:),heir,'squaredeuclidean');
             [~,idx2]=min(dists,[],2);
             idx(indices, 2) = idx2;
         end

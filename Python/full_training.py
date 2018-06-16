@@ -1,4 +1,4 @@
-from run_kmeans import run_kmeans
+from run_kmeans import run_kmeans, run_kmeans_nonminibatch
 # from mapping_calculation import mapping_calculation, mapping_calculationRANSAC
 from mapping_calc_pre_crossval import mapping_calculation, mapping_calculation_3by3, mapping_calculation_NbyN
 from cent_to_heir import cent_to_heir, cent_to_heir_NbyN
@@ -30,6 +30,7 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
 
                     if(rkm==1):
                         run_kmeans(dx, n)
+                        # run_kmeans_nonminibatch(dx, n)
                         cent_to_heir(n, stage)
                     if(rmc==1):
                         # ADDED BIAS TERM TO mapping_calculation(not yet to ransac)
@@ -40,7 +41,8 @@ def runFullTraining(rkm=1,rmc=1,rcm2c=1):
                     if(rcm2c==1):
                         eng = matlab.engine.start_matlab()
                         success = eng.ConvMat2Cell(n, stage, int(numneighbors+1))
-                    print('Finished training model for clusterszA = ' + str(numneighbors))
+                    print('Finished training model for val = ' + str(n))
+                    print('======================================')
             else:
                 numneighbors = int(nn)
                 if (stage == 1):

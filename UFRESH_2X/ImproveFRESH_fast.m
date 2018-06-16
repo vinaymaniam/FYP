@@ -4,9 +4,9 @@ dwtmode('per')
 addpath('vinay')
 addpath('../Python/data_files')
         
-directory_x = 'Testing_Images/FRESH_upscaled/Set14'; 
+directory_x = 'Testing_Images/FRESH_upscaled/Set5'; 
 pattern = '*.bmp';
-directory_y = 'Testing_Images/GT/Set14'; 
+directory_y = 'Testing_Images/GT/Set5'; 
 
 XpathCell = glob(directory_x, pattern );
 Xcell = load_images( XpathCell );
@@ -20,12 +20,12 @@ if length(Xcell) ~= length(Ycell)
 	error('Error: The number of X images is not equal to the number of Y images!');
 end
 % nvals = [128,256,512,1024,2048,4096,8192,16384];
-nvals = [8192];
+nvals = [2048];
 meanpsnrs = zeros(length(nvals),1);
 meanssims = zeros(length(nvals),1);
 meantimeperpixel = zeros(length(nvals),1);
 % load('newheir16384');
-load('1pyMap8192cell192');
+load(sprintf('%ipyMap%icell192',1,nvals));
 load(sprintf('%ipyHeirarchy%i',1,nvals));
 heirarchy = single(heirarchy);   
 for n = nvals

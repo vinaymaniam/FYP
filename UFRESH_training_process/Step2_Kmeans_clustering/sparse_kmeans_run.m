@@ -1,11 +1,11 @@
 clear;
-maxIter = 300;
-nReplicates = 8;
+maxIter = 500;
+nReplicates = 1;
 load DX_all.mat
 
 t = []; ks = [];
-pool = parpool;
-for i = [64 1024 2048 4096 8192]%[256, 1024, 2048, 4096, 8192]
+% pool = parpool;
+for i = [4096]%[256, 1024, 2048, 4096, 8192]
     fprintf('Computing K-means for k=%i...\n',i)
     k = i;
     t1 = tic;        
@@ -13,7 +13,7 @@ for i = [64 1024 2048 4096 8192]%[256, 1024, 2048, 4096, 8192]
 %         'Display','iter','Replicates',nReplicates,'Sparsify',false, 'start','++','MaxIter',maxIter);
 %   Matlab K-means faster    
     stream = RandStream('mlfg6331_64');
-    options = statset('UseParallel',1,'UseSubstreams',1,...
+    options = statset('UseSubstreams',1,...
     'Streams',stream);
     [idx, Center, ~, ~] = kmeans(X',k,'Options',options,'MaxIter',maxIter,...
                           'Display','final','Replicates',nReplicates);
@@ -21,8 +21,8 @@ for i = [64 1024 2048 4096 8192]%[256, 1024, 2048, 4096, 8192]
     t = [t, toc(t1)];
     fprintf('K-means for k=%i took %.1f seconds...\n',i,toc(t1))
     ks = [ks, i];
-    save(sprintf('Center%i',i), 'Center');
-    save(sprintf('idx%i',i), 'idx');
+%     save(sprintf('Center%i',i), 'Center');
+%     save(sprintf('idx%i',i), 'idx');
 end
 figure
 plot(ks, t, 'LineWidth', 2)
