@@ -5,12 +5,13 @@ addpath('vinay')
 addpath('../Python/data_files')
 
 n = 8192;
-nvals = [0.003,0.01,0.02,0.025,0.03,0.04,0.06,0.1];
+% nvals = [0.003,0.01,0.02,0.025,0.03,0.04,0.06,0.1];
+nvals = 0.02;
 meanpsnrs = zeros(length(nvals),2);
 meanssims = zeros(length(nvals),2);
 meantimeperpixel = zeros(length(nvals),2);
 starttime = tic;
-for set = 1:2
+for set = 2
     directory_x = sprintf('Testing_Images/FRESH_upscaled/Set%i',9*set-4); 
     pattern = '*.bmp';
     directory_y = sprintf('Testing_Images/GT/Set%i',9*set-4);  
@@ -84,6 +85,7 @@ for set = 1:2
             toc(stopwatch1)
             tpp(imgIdx) = toc(stopwatch1)/numel(Ytest);
         %         visualiseImprovement(Xcell{imgIdx}, Xtest, Ytest)
+%             imwrite(Xtest,sprintf('output/%i.bmp',imgIdx));
         end
         fprintf('============================================================\n')
         fprintf('Average PSNR across all images = %.2f\n',mean(postpsnr))

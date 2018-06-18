@@ -7,7 +7,6 @@ function [ Xrecim ] = ufresh2( X_test,blocksize,heirarchy,index, Map )
     dc_X = mean(X_test_vec);
 	X_test_vec = X_test_vec - repmat(dc_X, size(X_test_vec, 1), 1);
     %% THis line takes the bulk of the time
-    %[heirarchy, index] = heirarchicalKmeans(Center);
     ind=heirarchicalSearch(X_test_vec,heirarchy);
     idx = heir2standard(ind, index);
     %  ------------------------------------

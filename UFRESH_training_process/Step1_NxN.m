@@ -1,12 +1,12 @@
 clear;
 %% DECLARE N for NxN
-N = 6;
+N = 4;
 
 tic
-% addpath('ksvd');
-% addpath('ksvd/ksvdbox');
-% addpath('ksvd/ksvdbox/private_ccode');
-% addpath('ksvd/ompbox');
+addpath('ksvd');
+addpath('ksvd/ksvdbox');
+addpath('ksvd/ksvdbox/private_ccode');
+addpath('ksvd/ompbox');
 addpath('utils');
 % addpath('Step2_Kmeans_clustering');
 
@@ -21,7 +21,7 @@ Xcell = load_images( XpathCell );
 YpathCell = glob(directory_y, pattern );
 Ycell = load_images( YpathCell );
 blocksize = [N, N]; % the size of each image patch.
-trainnum = 20000;
+trainnum = 100000;
 variance_Thresh = 0.02;
 X = [];
 Y = [];

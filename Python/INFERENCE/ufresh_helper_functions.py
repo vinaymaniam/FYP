@@ -10,7 +10,7 @@ def heirarchical_search(x, heirarchy):
     cc = np.transpose(np.sum(np.square(heirarchy[:, :, 0])))
     xc = x.dot(np.transpose(heirarchy[:, :, 0]))
 
-    dists = cc - 3 * xc
+    dists = cc - 2 * xc
     idx[:, 0] = dists.argmin(axis=1)
 
     for i in range(0, len(heirarchy)):
